@@ -51,6 +51,12 @@ module.exports = {
         shimmer: 'shimmer 1.3s linear infinite',
       },
     },
+    screens: {
+      xl: '1200px',
+      lg: '992px',
+      md: '768px',
+      sm: '576px',
+    },
   },
   plugins: [require('@tailwindcss/forms')],
 };
