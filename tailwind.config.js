@@ -24,6 +24,10 @@ module.exports = {
           900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
         },
         dark: '#222222',
+        'header-item': '#6c757e',
+        'header-item-hover': '#3498db',
+        'main-bg': '#f8f9fa',
+        'primary': '#3498db'
       },
       keyframes: {
         flicker: {
@@ -50,12 +54,15 @@ module.exports = {
         flicker: 'flicker 3s linear infinite',
         shimmer: 'shimmer 1.3s linear infinite',
       },
-    },
-    screens: {
-      xl: '1200px',
-      lg: '992px',
-      md: '768px',
-      sm: '576px',
+      padding: {
+        '0.8': '0.8rem'
+      },
+      screens: {
+        'xl': '1200px',
+        'lg': '992px',
+        'md': '768px',
+        'sm': '576px'
+      }
     },
   },
   plugins: [require('@tailwindcss/forms')],

@@ -25,9 +25,8 @@ export default function HomePage() {
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-
       <main>
-        <section className='bg-white'>
+        <section className='bg-[#21325b]'>
           <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
             <Vercel className='text-5xl' />
             <h1 className='mt-4'>

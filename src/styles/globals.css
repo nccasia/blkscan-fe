@@ -31,7 +31,7 @@
 @layer base {
   /* inter var - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Helvetica,Arial,sans-serif';
     font-style: normal;
     font-weight: 100 900;
     font-display: optional;
@@ -74,6 +74,9 @@
   .p {
     @apply font-primary text-sm md:text-base;
   }
+  body{
+    color:#1e2022;
+  }
   /* #endregion  /**======== Typography =========== */
 
   .layout {
@@ -115,4 +118,8 @@
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
   }
+}
+
+.dropdown:hover > .dropdown-content {
+	display: block;
 }
