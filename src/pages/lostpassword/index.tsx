@@ -6,9 +6,9 @@ import { ReCAPTCHA } from 'react-google-recaptcha';
 const LostPassword = () => {
   return (
     <Layout>
-      <div className='relative block w-full bg-[#f8f9fa] text-[black]'>
+      <div className='block w-full bg-[#f8f9fa] text-[black]'>
         <div className='layout py-12 text-left font-primary text-sm font-normal sm:px-[45px]'>
-          <form className=' relative mx-auto block w-full lg:!w-1/2 md:w-3/4'>
+          <form className=' mx-auto block w-full lg:!w-1/2 md:w-3/4'>
             <div className='w-full'>
               <h1 className='mb-2 text-2xl  font-normal text-[#3498db]'>
                 Forgot your password?

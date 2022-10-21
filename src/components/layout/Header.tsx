@@ -122,9 +122,8 @@ export default function Header() {
             <nav className={`opacity-100 transition-all pl-[0.5rem] md:pl-0 ease-out duration-500 w-full md:block md:w-auto ${!isOpenNavBar ? "hidden opacity-0" : ""}`}>
               <ul className='flex flex-col md:flex-row items-center justify-between'>
                 <li className="pr-4 py-[0.5rem] md:py-[0.8rem] w-full md:w-auto">
-                  <Link href="/"
-                    className='text-header-item-hover text-sm'>
-                    <a>Home</a>
+                  <Link href="/">
+                    <a className='text-header-item-hover text-sm'>Home</a>
                   </Link>
                 </li>
 
@@ -162,7 +161,7 @@ export default function Header() {
                   <Link href='/login'
                     className='md:px-4 flex items-center gap-1 border-0 md:border-x-[1px]'>
                     <a className="text-header-item text-sm flex items-center hover:text-header-item-hover">
-                      <FaUserCircle className='mt-[2px] mr-[2px]'/>Sign In
+                      <FaUserCircle className='mt-[2px] mr-[2px]' />Sign In
                     </a>
                   </Link>
                 </li>

@@ -6,9 +6,9 @@ import ReCaptchaV2 from 'react-google-recaptcha';
 const SignUp = () => {
   return (
     <Layout>
-      <div className='relative block w-full bg-[#f8f9fa] text-[black]'>
+      <div className=' block w-full bg-[#f8f9fa] text-[black]'>
         <div className='layout py-12 text-left font-primary text-sm font-normal sm:px-[45px]'>
-          <form className=' relative mx-auto block w-full lg:!w-1/2 md:w-3/4'>
+          <form className='  mx-auto block w-full lg:!w-1/2 md:w-3/4'>
             <div className='w-full'>
               <h1 className='mb-2 text-2xl  font-normal text-[#3498db]'>
                 Register a <strong className='text-2xl leading-6'>New</strong>{' '}
@@ -59,38 +59,38 @@ const SignUp = () => {
                   />
                 </div>
               </div>
-              <div className='block'>
-                <div className='relative flex items-center'>
-                  <input
-                    type='checkbox'
-                    className='focus:rings-0 absolute mr-3 rounded  border border-[#d5dae2] focus:border-[#3498db] focus:shadow focus:outline-none focus:ring-0 focus:ring-[#3498db] focus:ring-opacity-50'
-                  />
-                  <span className='w-full pl-6 text-[#8c98a4]'>
-                    I agree to the{' '}
+              <div className='flex items-center'>
+                <input
+                  type='checkbox'
+                  className='focus:rings-0 mr-3 rounded  border border-[#d5dae2] focus:border-[#3498db] focus:shadow focus:outline-none focus:ring-0 focus:ring-[#3498db] focus:ring-opacity-50'
+                />
+                <span className='w-full text-[#8c98a4]'>
+                  I agree to the{' '}
+                  <Link href="/terms">
                     <a
                       className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'
-                      href='#'
                     >
                       Terms and Conditions
                     </a>
-                  </span>
-                </div>
+                  </Link>
+                </span>
               </div>
-              <div className='relative block'>
-                <div className=' flex items-center pl-6'>
-                  <input
-                    type='checkbox'
-                    className='focus:rings-0 absolute top-1 left-0 mr-3 rounded border border-[#d5dae2] focus:border-[#3498db] focus:shadow focus:outline-none focus:ring-0 focus:ring-[#3498db] focus:ring-opacity-50'
-                  />
-                  <span className='w-full  text-[#8c98a4]'>
-                    I agree to receive the Etherscan newsletter and understand
-                    that I can{' '}
-                    <a className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'>
-                      unsubscribe{' '}
+              <div className='flex items-center'>
+                <input
+                  type='checkbox'
+                  className='focus:rings-0 mr-3 rounded  border border-[#d5dae2] focus:border-[#3498db] focus:shadow focus:outline-none focus:ring-0 focus:ring-[#3498db] focus:ring-opacity-50'
+                />
+                <span className='w-full text-[#8c98a4]'>
+                  I agree to receive the Etherscan newsletter and understand that I can {' '}
+                  <Link href="/subcribe">
+                    <a
+                      className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'
+                    >
+                      unscribe {' '}
                     </a>
-                    at any time.
-                  </span>
-                </div>
+                  </Link>
+                  any time.
+                </span>
               </div>
               <div className='my-12 flex justify-center'>
                 <ReCaptchaV2 sitekey='6Leja5IiAAAAAPXmxBlErEWJKIw6jNEilqIRRzBQ' />
