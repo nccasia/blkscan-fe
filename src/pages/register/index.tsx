@@ -4,6 +4,7 @@ import React from 'react';
 import ReCaptchaV2 from 'react-google-recaptcha';
 
 const SignUp = () => {
+  
   return (
     <Layout>
       <div className=' block w-full bg-[#f8f9fa] text-[black]'>
