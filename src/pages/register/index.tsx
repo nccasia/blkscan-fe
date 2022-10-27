@@ -1,21 +1,23 @@
-import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
 import React from 'react';
 import ReCaptchaV2 from 'react-google-recaptcha';
 
+import Layout from '@/components/layout/Layout';
+
 const SignUp = () => {
-  
   return (
     <Layout>
       <div className=' block w-full bg-[#f8f9fa] text-[black]'>
         <div className='layout py-12 text-left font-primary text-sm font-normal sm:px-[45px]'>
-          <form className='  mx-auto block w-full lg:!w-1/2 md:w-3/4'>
+          <form className='  mx-auto block w-full md:w-3/4 lg:!w-1/2'>
             <div className='w-full'>
               <h1 className='mb-2 text-2xl  font-normal text-[#3498db]'>
                 Register a <strong className='text-2xl leading-6'>New</strong>{' '}
                 Account
               </h1>
-              <p className='mb-4 leading-7 text-[#6c757e]'>Fill out the form to get started.</p>
+              <p className='mb-4 leading-7 text-[#6c757e]'>
+                Fill out the form to get started.
+              </p>
             </div>
             <div className='block'>
               <div className='mb-4 block '>
@@ -43,7 +45,7 @@ const SignUp = () => {
                 />
               </div>
               <div className='mb-4 sm:flex'>
-                <div className='sm:pr-[7.5px] ư-full sm:w-1/2'>
+                <div className='ư-full sm:w-1/2 sm:pr-[7.5px]'>
                   <label className='mb-2 block'>Password</label>
                   <input
                     type='password'
@@ -51,7 +53,7 @@ const SignUp = () => {
                     className='focus:rings-0  w-full overflow-visible rounded border border-[#d5dae2] px-3 py-2 placeholder:text-sm placeholder:text-[#8c98a4] focus:border-[#3498db] focus:shadow focus:outline-none focus:ring-0 focus:ring-[#3498db] focus:ring-opacity-50'
                   />
                 </div>
-                <div className='sm:pl-[7.5px] w-full sm:w-1/2'>
+                <div className='w-full sm:w-1/2 sm:pl-[7.5px]'>
                   <label className='mb-2 block'>Confirm Password</label>
                   <input
                     type='password'
@@ -67,10 +69,8 @@ const SignUp = () => {
                 />
                 <span className='w-full text-[#8c98a4]'>
                   I agree to the{' '}
-                  <Link href="/terms">
-                    <a
-                      className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'
-                    >
+                  <Link href='/terms'>
+                    <a className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'>
                       Terms and Conditions
                     </a>
                   </Link>
@@ -82,12 +82,11 @@ const SignUp = () => {
                   className='focus:rings-0 mr-3 rounded  border border-[#d5dae2] focus:border-[#3498db] focus:shadow focus:outline-none focus:ring-0 focus:ring-[#3498db] focus:ring-opacity-50'
                 />
                 <span className='w-full text-[#8c98a4]'>
-                  I agree to receive the Etherscan newsletter and understand that I can {' '}
-                  <Link href="/subcribe">
-                    <a
-                      className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'
-                    >
-                      unscribe {' '}
+                  I agree to receive the Etherscan newsletter and understand
+                  that I can{' '}
+                  <Link href='/subcribe'>
+                    <a className='cursor-pointer border-b border-dashed border-[#97a4af] hover:text-[#3498db]'>
+                      unscribe{' '}
                     </a>
                   </Link>
                   any time.
@@ -98,13 +97,11 @@ const SignUp = () => {
               </div>
               <div className='flex items-center justify-between'>
                 <div className='flex flex-col sm:flex-row'>
-                  <span className='text-sm text-[#8c98a4] mr-2'>
+                  <span className='mr-2 text-sm text-[#8c98a4]'>
                     Already have an account?{' '}
                   </span>
-                  <Link
-                    href='/login'
-                  >
-                    <a className="text-sm text-[#3498db] text-[0.875rem] block">
+                  <Link href='/login'>
+                    <a className='block text-sm text-[0.875rem] text-[#3498db]'>
                       Click to sign in
                     </a>
                   </Link>

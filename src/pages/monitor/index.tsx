@@ -1,27 +1,18 @@
-import { randomGraph } from "@/components/data";
-import FocusGraph from "@/components/FocusGraphWrapper";
-import Layout from "@/components/layout/Layout";
-import dynamic from "next/dynamic";
-
-const ForceGraph2D = dynamic(() => import("react-force-graph-2d"), {
-  ssr: false,
-});
+import FocusGraph from '@/components/monitor-graph/FocusGraphWrapper';
+import Layout from '@/components/layout/Layout';
 
 const Monitor = () => {
-
-  console.log(randomGraph())
   return (
     <>
       <Layout>
-        <div className="layout">
+        <div className='layout'>
           <div>
-            <FocusGraph
-            />
+            <FocusGraph />
           </div>
         </div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
 export default Monitor;

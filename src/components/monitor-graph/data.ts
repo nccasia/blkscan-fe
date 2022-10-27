@@ -12,29 +12,30 @@ export type Node = {
   address: string;
   transactionAmount: number;
   targetNodes: number[];
-}
+};
 
 export type NodeGraph = {
   id: number;
   val: number;
   color: string;
   name: string;
-}
+};
 
 export type Link = {
   source: number;
   target: number;
   name: string;
-}
+};
 
 export type Graph = {
   nodes: NodeGraph[];
   links: Link[];
-}
+};
 
 export const randomNode = (id: number) => {
   const address = randomstring.generate();
-  const transactionAmount = id < 80 ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 10);
+  const transactionAmount =
+    id < 80 ? Math.floor(Math.random() * 3) : Math.floor(Math.random() * 10);
   const targetNodes = [];
   for (let i = 0; i < transactionAmount; i++) {
     const randomId = Math.floor(Math.random() * 100);
@@ -42,7 +43,7 @@ export const randomNode = (id: number) => {
   }
   const Node: Node = { id, address, transactionAmount, targetNodes };
   return Node;
-}
+};
 
 export const randomGraph = (): Graph => {
   const nodes: NodeGraph[] = [];
@@ -50,14 +51,12 @@ export const randomGraph = (): Graph => {
   for (let id = 0; id < 100; id++) {
     const startNode = randomNode(id);
     let val = startNode.transactionAmount;
-    let color = "";
+    let color = '';
     if (val < 3) {
       color = COLORS[2];
-    }
-    else if (val < 8) {
+    } else if (val < 8) {
       color = COLORS[1];
-    }
-    else {
+    } else {
       val *= 2;
       color = COLORS[0];
     }
@@ -70,10 +69,10 @@ export const randomGraph = (): Graph => {
       links.push({
         source,
         target,
-        name: `Link from node ${source} to ${target}`
+        name: `Link from node ${source} to ${target}`,
       });
-    })
+    });
   }
   const graph = { nodes, links };
   return graph;
-}
+};

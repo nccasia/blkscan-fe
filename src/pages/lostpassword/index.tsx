@@ -1,19 +1,22 @@
-import Layout from '@/components/layout/Layout';
 import Link from 'next/link';
 import React from 'react';
 import { ReCAPTCHA } from 'react-google-recaptcha';
+
+import Layout from '@/components/layout/Layout';
 
 const LostPassword = () => {
   return (
     <Layout>
       <div className='block w-full bg-[#f8f9fa] text-[black]'>
         <div className='layout py-12 text-left font-primary text-sm font-normal sm:px-[45px]'>
-          <form className=' mx-auto block w-full lg:!w-1/2 md:w-3/4'>
+          <form className=' mx-auto block w-full md:w-3/4 lg:!w-1/2'>
             <div className='w-full'>
               <h1 className='mb-2 text-2xl  font-normal text-[#3498db]'>
                 Forgot your password?
               </h1>
-              <p className='mb-4 leading-7 text-[#6c757e]'>Enter your email address below and we'll get you back on track.</p>
+              <p className='mb-4 leading-7 text-[#6c757e]'>
+                Enter your email address below and we'll get you back on track.
+              </p>
             </div>
             <div className='block'>
               <div className='mb-4 block '>
@@ -24,15 +27,13 @@ const LostPassword = () => {
                   placeholder='Email address'
                 />
               </div>
-              <div className=" my-12 flex justify-center">
-                <ReCAPTCHA
-                  sitekey="6LegSJIiAAAAAA25zp_rjkTvJgOKxIcEVqnZ889O"
-                />
+              <div className=' my-12 flex justify-center'>
+                <ReCAPTCHA sitekey='6LegSJIiAAAAAA25zp_rjkTvJgOKxIcEVqnZ889O' />
               </div>
               <div className='flex items-center justify-between'>
-                <div className="border-b border-dashed border-[#97a4af]">
+                <div className='border-b border-dashed border-[#97a4af]'>
                   <Link href='/login'>
-                    <a className="text-[#8c98a4] text-[0.875rem] hover:text-[#3498db]">
+                    <a className='text-[0.875rem] text-[#8c98a4] hover:text-[#3498db]'>
                       Back to sign in
                     </a>
                   </Link>
