@@ -10,12 +10,8 @@ const SearchBox = () => {
         <option value='addresses'>Addresses</option>
         <option value='tokens'>Tokens</option>
         <option value='names'>Name Tags</option>
-        <option value='labels' selected>
-          Labels
-        </option>
-        <option value='websites' selected>
-          Websites
-        </option>
+        <option value='labels'>Labels</option>
+        <option value='websites'>Websites</option>
       </select>
       <input
         type='text'
