@@ -31,7 +31,7 @@
 @layer base {
   /* inter var - latin */
   @font-face {
-    font-family: 'Inter';
+    font-family: 'Helvetica,Arial,sans-serif';
     font-style: normal;
     font-weight: 100 900;
     font-display: optional;
@@ -74,12 +74,15 @@
   .p {
     @apply font-primary text-sm md:text-base;
   }
+  body {
+    color: #1e2022;
+  }
   /* #endregion  /**======== Typography =========== */
 
   .layout {
-    /* 1100px */
-    max-width: 68.75rem;
-    @apply mx-auto w-11/12;
+    max-width: 87.5rem;
+    @apply px-[15px] sm:px-[45px] xl:px-[15px];
+    @apply mx-auto w-full;
   }
 
   .bg-dark a.custom-link {
@@ -115,4 +118,8 @@
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
   }
+}
+
+.dropdown:hover > .dropdown-content {
+  display: block;
 }

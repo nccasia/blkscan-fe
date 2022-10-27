@@ -99,7 +99,7 @@ export default function Header() {
                   onClick={() => changeOpenNavBar(!isOpenNavBar)}
                 >
                   <span className='sr-only'>Open main menu</span>
-                  <div className='text-header-item hover:text-header-item-hover absolute left-1/2 top-1/2 block w-5 -translate-x-1/2   -translate-y-1/2  transform text-xl'>
+                  <div className='absolute left-1/2 top-1/2 block w-5 -translate-x-1/2 -translate-y-1/2 transform   text-xl  text-header-item hover:text-header-item-hover'>
                     <span
                       aria-hidden='true'
                       className={`absolute left-[10px] block h-0.5 w-5 transform bg-current transition-transform duration-300 ease-in-out ${
