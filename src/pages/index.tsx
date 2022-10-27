@@ -1,9 +1,9 @@
-import * as React from 'react'
+import * as React from 'react';
 
-import Layout from '@/components/layout/Layout'
-import Seo from '@/components/Seo'
+import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 
-import FocusGraph from '../components/force-graph/FocusGraphWrapper'
+import FocusGraph from '../components/force-graph/FocusGraphWrapper';
 
 export default function HomePage() {
   return (
@@ -16,5 +16,5 @@ export default function HomePage() {
         </div>
       </main>
     </Layout>
-  )
+  );
 }

@@ -74,14 +74,14 @@
   .p {
     @apply font-primary text-sm md:text-base;
   }
-  body{
-    color:#1e2022;
+  body {
+    color: #1e2022;
   }
   /* #endregion  /**======== Typography =========== */
 
   .layout {
     max-width: 87.5rem;
-    @apply px-[15px] xl:px-[15px] sm:px-[45px];
+    @apply px-[15px] sm:px-[45px] xl:px-[15px];
     @apply mx-auto w-full;
   }
 
@@ -121,5 +121,5 @@
 }
 
 .dropdown:hover > .dropdown-content {
-	display: block;
+  display: block;
 }
