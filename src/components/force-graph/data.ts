@@ -11,7 +11,7 @@ export type GrapDataTransaction = {
 
 const colors = ['#f90707', '#588cd8', '#e5b590'];
 
-const rangArrar = (n: number) => {
+const rangeArray = (n: number) => {
   const arr: number[] = [];
   for (let i = 0; i < n; i++) {
     arr.push(i);
@@ -20,11 +20,11 @@ const rangArrar = (n: number) => {
 };
 
 export const genRandomTree = (N = 300, reverse = false) => {
-  const nodes = [...rangArrar(N)].map((i) => ({
+  const nodes = [...rangeArray(N)].map((i) => ({
     id: i,
   }));
 
-  const links = [...rangArrar(N)]
+  const links = [...rangeArray(N)]
     .filter((id) => id)
     .map((id) => {
       const target = Math.round(Math.random() * (nodes?.length - 1));
