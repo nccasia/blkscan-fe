@@ -43,6 +43,8 @@ const FocusGraph = () => {
       onNodeClick={(current) => {
         fgRef.current?.zoomToFit(500, 250, (node) => node.id === current?.id);
       }}
+      width={1200}
+      nodeLabel={(node: any) => node.val}
     />
   );
 };

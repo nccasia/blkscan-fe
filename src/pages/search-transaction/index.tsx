@@ -1,12 +1,24 @@
 import Image from 'next/image';
+import * as React from 'react';
 
+import FocusGraph from '@/components/force-graph/FocusGraphWrapper';
 import Layout from '@/components/layout/Layout';
-import FocusGraph from '../../components/force-graph/FocusGraph';
+
 const FirstPost = () => {
-  function displayResult() {
-    // eslint-disable-next-line no-console
-    console.log('hi nguyen van sang');
-  }
+  const [visiable, setVisiable] = React.useState<boolean>(false);
+  const [inputTransaction, setInputTransaction] = React.useState<string>('');
+
+  const handleSearchAddressWallet = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    setVisiable(true);
+  };
+
+  const handleChangeInputTransaction = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setInputTransaction(e.target.value);
+  };
+
   return (
     <Layout>
       <div className='mx-auto mr-auto mt-4 flex w-9/12 justify-between'>
@@ -33,10 +45,7 @@ const FirstPost = () => {
           & deployer addresses, creation date, block number and more.
         </p>
       </div>
-      <form
-        onClick={displayResult}
-        className='z-0 mx-auto mr-auto mt-7 flex w-1/3 items-center'
-      >
+      <form className='z-0 mx-auto mr-auto mt-7 flex w-1/3 items-center'>
         <label htmlFor='simple-search' className='sr-only'>
           Search
         </label>
@@ -57,6 +66,8 @@ const FirstPost = () => {
             </svg>
           </div>
           <input
+            value={inputTransaction}
+            onChange={handleChangeInputTransaction}
             type='text'
             id='simple-search'
             className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-200 dark:focus:border-blue-500 dark:focus:ring-blue-500'
@@ -65,6 +76,7 @@ const FirstPost = () => {
           />
         </div>
         <button
+          onClick={handleSearchAddressWallet}
           type='submit'
           className='ml-2 rounded-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
         >
@@ -85,9 +97,11 @@ const FirstPost = () => {
           <span className='sr-only'>Search</span>
         </button>
       </form>
-      <div>
-        <FocusGraph />
-      </div>
+      {visiable ? (
+        <div className=''>
+          <FocusGraph />
+        </div>
+      ) : null}
     </Layout>
   );
 };
