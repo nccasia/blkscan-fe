@@ -56,10 +56,10 @@ export default function Header() {
   const [isOpenNavBar, changeOpenNavBar] = useState<boolean>(false);
   const isHomePage = router.pathname === '/';
   return (
-    <header className='z-50 border border-inherit bg-white py-[0.25rem] font-normal lg:py-0'>
+    <header className='z-50 border border-inherit py-[0.25rem] font-normal lg:py-0'>
       <div
         className='layout relative flex flex-col items-start justify-between py-[0.25rem] 
-       md:py-0 lg:flex-row lg:items-center'
+       lg:flex-row lg:items-center'
       >
         <div className='flex w-full justify-between md:block md:w-auto'>
           <div>
@@ -91,7 +91,7 @@ export default function Header() {
               </div>
             </div>
           </div>
-          <div className='flex flex-col justify-center md:hidden '>
+          <div className='flex flex-col justify-center md:hidden'>
             <div className='relative'>
               <nav>
                 <button
@@ -125,9 +125,9 @@ export default function Header() {
           </div>
         </div>
         <div
-          className={`flex w-full flex-1 pt-[0.5rem] md:flex-col ${
+          className={`flex w-full flex-1  md:flex-col ${
             isOpenNavBar ? 'flex-col-reverse' : 'flex-col'
-          }`}
+          } ${isHomePage ? 'pt-0' : 'pt-[0.5rem]'}`}
         >
           <div
             className={`flex justify-end ${isHomePage ? 'hidden' : 'block'}`}
@@ -149,6 +149,13 @@ export default function Header() {
                   </Link>
                 </li>
 
+                <li className='w-full py-[0.5rem] px-4 md:w-auto md:py-[0.8rem]'>
+                  <Link href='/monitor'>
+                    <a className='text-sm text-header-item hover:text-header-item-hover'>
+                      Monitor
+                    </a>
+                  </Link>
+                </li>
                 {menu.map((item, index) => (
                   <li
                     key={index}
