@@ -1,25 +1,28 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d';
 
-import { genRandomTree } from '../force-graph/data'
+import { genRandomTree, GrapDataTransaction } from '../force-graph/data';
 
 const FocusGraph = () => {
-  const [graphData, setGraphData] = useState<any>()
-  const [allowFit, setAllowFit] = useState(true)
-  const fgRef = useRef<ForceGraphMethods>()
+  const [graphData, setGraphData] = useState<GrapDataTransaction>(
+    genRandomTree(1000)
+  );
+  const [allowFit, setAllowFit] = useState(true);
+  const fgRef = useRef<ForceGraphMethods>();
 
   //Mock data. Will call api to get data later
-  const data = useMemo(() => genRandomTree(1000), [])
+  const data = useMemo(() => genRandomTree(1000), []);
 
   useEffect(() => {
-    setGraphData(data)
-    setAllowFit(true)
-  }, [data])
+    setGraphData(data);
+    setAllowFit(true);
+  }, [data]);
 
   const maxNodeVal =
-    graphData && Math.max(...graphData?.nodes?.map((node: any) => node.val))
+    graphData && Math.max(...graphData.nodes.map((node) => node.val));
 
-  const maxNode = graphData?.nodes.find((node: any) => node.val === maxNodeVal)
+  const maxNode = graphData?.nodes.find((node) => node.val === maxNodeVal);
 
   return (
     <ForceGraph2D
@@ -33,23 +36,15 @@ const FocusGraph = () => {
       cooldownTicks={10}
       onEngineTick={() => {
         if (allowFit) {
-          fgRef.current?.zoomToFit(
-            500,
-            250,
-            (node: any) => node.id === maxNode?.id
-          )
+          fgRef.current?.zoomToFit(500, 250, (node) => node.id === maxNode?.id);
         }
       }}
       onEngineStop={() => setAllowFit(false)}
       onNodeClick={(current) => {
-        fgRef.current?.zoomToFit(
-          500,
-          250,
-          (node: any) => node.id === current?.id
-        )
+        fgRef.current?.zoomToFit(500, 250, (node) => node.id === current?.id);
       }}
     />
-  )
-}
+  );
+};
 
-export default FocusGraph
+export default FocusGraph;

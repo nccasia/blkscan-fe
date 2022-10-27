@@ -27,7 +27,6 @@ module.exports = {
         'header-item': '#6c757e',
         'header-item-hover': '#3498db',
         'main-bg': '#f8f9fa',
-        'primary': '#3498db'
       },
       keyframes: {
         flicker: {
@@ -55,14 +54,14 @@ module.exports = {
         shimmer: 'shimmer 1.3s linear infinite',
       },
       padding: {
-        '0.8': '0.8rem'
+        0.8: '0.8rem',
       },
       screens: {
-        'xl': '1200px',
-        'lg': '992px',
-        'md': '768px',
-        'sm': '576px'
-      }
+        xl: '1200px',
+        lg: '992px',
+        md: '768px',
+        sm: '576px',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],
