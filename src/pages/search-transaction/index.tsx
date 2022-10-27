@@ -1,7 +1,10 @@
 import Image from 'next/image';
+
 import Layout from '@/components/layout/Layout';
+import FocusGraph from '../../components/force-graph/FocusGraph';
 const FirstPost = () => {
   function displayResult() {
+    // eslint-disable-next-line no-console
     console.log('hi nguyen van sang');
   }
   return (
@@ -82,6 +85,9 @@ const FirstPost = () => {
           <span className='sr-only'>Search</span>
         </button>
       </form>
+      <div>
+        <FocusGraph />
+      </div>
     </Layout>
   );
 };
