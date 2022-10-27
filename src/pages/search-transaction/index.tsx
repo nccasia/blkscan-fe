@@ -1,6 +1,9 @@
-import Layout from '@/components/layout/Layout';
 import Image from 'next/image';
+import Layout from '@/components/layout/Layout';
 const FirstPost = () => {
+  function displayResult() {
+    console.log('hi nguyen van sang');
+  }
   return (
     <Layout>
       <div className='mx-auto mr-auto mt-4 flex w-9/12 justify-between'>
@@ -13,7 +16,7 @@ const FirstPost = () => {
       </div>
 
       <div className='ml-auto mr-auto w-9/12 flex-grow border-t border-gray-300'></div>
-      <div className='text-center mt-9'>
+      <div className='mt-9 text-center'>
         <Image
           src='/images/empty-search-state-alt.svg'
           height={144}
@@ -21,13 +24,16 @@ const FirstPost = () => {
           alt='transaction search'
         />
       </div>
-      <div className='w-1/4 text-center ml-auto mr-auto text-slate-500'>
+      <div className='ml-auto mr-auto w-1/4 text-center text-slate-500'>
         <p>
           Search Smart Contract source codes on Etherscan and filter by contract
           & deployer addresses, creation date, block number and more.
         </p>
       </div>
-      <form className='z-0 mx-auto mr-auto mt-4 flex w-1/3 items-center mt-7'>
+      <form
+        onClick={displayResult}
+        className='z-0 mx-auto mr-auto mt-7 flex w-1/3 items-center'
+      >
         <label htmlFor='simple-search' className='sr-only'>
           Search
         </label>
@@ -41,9 +47,9 @@ const FirstPost = () => {
               xmlns='http://www.w3.org/2000/svg'
             >
               <path
-                fill-rule='evenodd'
+                fillRule='evenodd'
                 d='M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z'
-                clip-rule='evenodd'
+                clipRule='evenodd'
               ></path>
             </svg>
           </div>
@@ -67,9 +73,9 @@ const FirstPost = () => {
             xmlns='http://www.w3.org/2000/svg'
           >
             <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              stroke-width='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
               d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
             ></path>
           </svg>
