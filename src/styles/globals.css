@@ -123,3 +123,11 @@
 .dropdown:hover > .dropdown-content {
   display: block;
 }
+
+.force-graph-container {
+  margin-top: 2.4rem;
+}
+
+.force-graph-container canvas {
+  margin: 0 auto;
+}
