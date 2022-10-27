@@ -1,4 +1,4 @@
-// !STARTERCONF You can delete this page
+// !STARTERCONF You can delete this pagene
 import clsx from 'clsx';
 import * as React from 'react';
 
