@@ -33,7 +33,7 @@ const FocusGraph = () => {
         enableNodeDrag={false}
         nodeCanvasObjectMode={() => 'after'}
         linkColor={(link: any) => link.source.color}
-        nodeCanvasObject={(node: any, ctx) => {
+        nodeCanvasObject={(node: any, ctx: any) => {
           ctx.font = `3px Sans-Serif`;
           ctx.textAlign = 'left';
           ctx.fillStyle = '#fff';
