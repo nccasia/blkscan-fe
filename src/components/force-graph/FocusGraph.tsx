@@ -26,6 +26,7 @@ const FocusGraph = () => {
 
   return (
     <ForceGraph2D
+      width={1400}
       ref={fgRef}
       graphData={graphData}
       nodeAutoColorBy='id'
