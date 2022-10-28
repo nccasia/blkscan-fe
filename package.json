@@ -31,7 +31,6 @@
     "react-force-graph-2d": "^1.23.11",
     "react-force-graph-3d": "^1.21.13",
     "react-google-recaptcha": "^2.1.0",
-    "react-graph-vis": "^1.0.7",
     "react-hook-form": "^7.38.0",
     "react-icons": "^4.4.0",
     "tailwind-merge": "^1.6.1",

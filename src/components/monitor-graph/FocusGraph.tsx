@@ -11,12 +11,12 @@ const FocusGraph = () => {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    setWidth(ref.current.offsetWidth);
-  }, [widthSize]);
-
-  useEffect(() => {
     setData(randomGraph());
   }, []);
+
+  useEffect(() => {
+    setWidth(ref.current.offsetWidth);
+  }, [widthSize]);
 
   return (
     <div ref={ref}>
