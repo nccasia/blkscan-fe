@@ -3,6 +3,7 @@ import { AppProps } from 'next/app';
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import { wrapper } from '../store/store';
 
 /**
  * !STARTERCONF info
@@ -13,4 +14,5 @@ function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />;
 }
 
-export default MyApp;
+// export default MyApp;
+export default wrapper.withRedux(MyApp);

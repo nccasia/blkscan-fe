@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d';
-
 import { genRandomTree, GrapDataTransaction } from '../force-graph/data';
+import { useAppSelector } from '../../store/hook';
+import { searchState } from '../../store/search';
 
 const FocusGraph = () => {
+  const selector = useAppSelector(searchState);
+
   const [graphData, setGraphData] = useState<GrapDataTransaction>(
     genRandomTree(1000)
   );

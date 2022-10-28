@@ -1,7 +1,8 @@
 import Image from 'next/image';
 
 import Layout from '@/components/layout/Layout';
-import FocusGraph from '../../components/force-graph/FocusGraph';
+import FocusGraph from '@/components/force-graph/FocusGraphWrapper';
+
 const FirstPost = () => {
   function displayResult() {
     // eslint-disable-next-line no-console

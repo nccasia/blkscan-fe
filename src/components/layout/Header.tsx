@@ -54,7 +54,6 @@ const childMenu = [
 export default function Header() {
   const router = useRouter();
   const [isOpenNavBar, changeOpenNavBar] = useState<boolean>(false);
-  const isHomePage = router.pathname === '/';
   return (
     <header className='z-50 border border-inherit py-[0.25rem] font-normal lg:py-0'>
       <div
@@ -73,7 +72,10 @@ export default function Header() {
                 alt='Icon'
               />
             </UnstyledLink>
-            <div className={`${isHomePage ? 'hidden' : 'block'}`}>
+            <div 
+            // className={`${isHomePage ? 'hidden' : 'block'}`}
+            // className={`${isHomePage ? 'hidden' : 'block'}`}
+            >
               <div className='mt-3 hidden rounded-[0.35rem] bg-[rgba(119,131,143,0.05)] px-[0.5rem] text-[0.8rem] sm:flex '>
                 <span className='text-[#1e2022]'>Eth: $1,293.91</span>
                 <span className='ml-1 text-[#de4437]'>(-0.43%)</span>
@@ -125,13 +127,12 @@ export default function Header() {
           </div>
         </div>
         <div
-          className={`flex w-full flex-1  md:flex-col ${
-            isOpenNavBar ? 'flex-col-reverse' : 'flex-col'
-          } ${isHomePage ? 'pt-0' : 'pt-[0.5rem]'}`}
+          className='flex w-full flex-1  md:flex-col'
+          // className={`flex w-full flex-1  md:flex-col ${
+          //   isOpenNavBar ? 'flex-col-reverse' : 'flex-col'
+          // } ${isHomePage ? 'pt-0' : 'pt-[0.5rem]'}`}
         >
-          <div
-            className={`flex justify-end ${isHomePage ? 'hidden' : 'block'}`}
-          >
+          <div className='flex justify-end'>
             <div className='w-full lg:w-3/5'>
               <SearchBox />
             </div>
@@ -145,7 +146,7 @@ export default function Header() {
               <ul className='flex flex-col items-center justify-between md:flex-row'>
                 <li className='w-full py-[0.5rem] pr-4 md:w-auto md:py-[0.8rem]'>
                   <Link href='/'>
-                    <a className='text-header-item-hover text-sm'>Home</a>
+                    <a className='text-sm text-header-item-hover'>Home</a>
                   </Link>
                 </li>
 
@@ -163,8 +164,8 @@ export default function Header() {
                py-[0.5rem] md:w-auto md:px-4 md:py-[0.8rem] '
                   >
                     <div
-                      className='text-header-item group-hover:text-header-item-hover flex w-full 
-                  items-end justify-between text-sm'
+                      className='flex w-full items-end justify-between 
+                  text-sm text-header-item group-hover:text-header-item-hover'
                     >
                       {item}
                       <RiArrowDropDownLine className='ml-[0.1rem] inline' />
@@ -180,8 +181,8 @@ export default function Header() {
                md:w-auto md:px-4 md:py-[0.8rem]'
                 >
                   <div
-                    className='text-header-item group-hover:text-header-item-hover flex w-full 
-                  items-end justify-between text-sm'
+                    className='flex w-full items-end justify-between 
+                  text-sm text-header-item group-hover:text-header-item-hover'
                   >
                     More
                     <RiArrowDropDownLine className='ml-[0.1rem] inline' />
@@ -201,7 +202,7 @@ export default function Header() {
                     href='/login'
                     className='flex items-center gap-1 border-0 md:border-x-[1px] md:px-4'
                   >
-                    <a className='text-header-item hover:text-header-item-hover flex items-center text-sm'>
+                    <a className='flex items-center text-sm text-header-item hover:text-header-item-hover'>
                       <FaUserCircle className='mt-[2px] mr-[2px]' />
                       Sign In
                     </a>
@@ -234,8 +235,8 @@ export default function Header() {
                md:hidden md:w-auto md:px-4 md:py-[0.8rem]'
                 >
                   <div
-                    className='text-header-item group-hover:text-header-item-hover flex w-full 
-                  items-end justify-between text-sm'
+                    className='flex w-full items-end justify-between 
+                  text-sm text-header-item group-hover:text-header-item-hover'
                   >
                     Explores
                     <RiArrowDropDownLine className='ml-[0.1rem] inline' />

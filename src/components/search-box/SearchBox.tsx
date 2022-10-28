@@ -1,7 +1,21 @@
 import { BiSearch } from 'react-icons/bi';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../store/hook';
+import { changeValueSearch } from '@/store/search';
+
+type FormValues = {
+  inputValue: string;
+};
+
 const SearchBox = () => {
+  const { register, handleSubmit } = useForm<FormValues>();
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    dispatch(changeValueSearch(data.inputValue));
+  };
+
   return (
-    <form className='flex items-stretch'>
+    <form className='flex items-stretch' onSubmit={handleSubmit(onSubmit)}>
       <select
         id='filter'
         className='hidden rounded-l border-[#d5dae2] pr-6 text-sm text-[#1e2022] focus:ring-0 md:block'
@@ -17,6 +31,7 @@ const SearchBox = () => {
         type='text'
         placeholder='Search by Address / Txn Hash / Block / Token / Ens'
         className='flex-1 border-[#d5dae2] px-[0.65rem] text-[0.875rem] text-[#1e2022] focus:ring-0'
+        {...register('inputValue')}
       />
       <button className='flex cursor-pointer flex-col justify-center rounded-r border-[#d5dae2] bg-[#3498db] py-[0.6rem] px-[1.125rem] text-white'>
         <BiSearch />
