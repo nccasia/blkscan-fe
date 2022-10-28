@@ -169,7 +169,7 @@ export default function Header() {
                       {item}
                       <RiArrowDropDownLine className='ml-[0.1rem] inline' />
                     </div>
-                    <div className='static left-0 hidden min-w-[250px] group-hover:block md:absolute'>
+                    <div className='static left-0 z-50 hidden min-w-[250px] group-hover:block md:absolute'>
                       <MultipleMenu menu={childMenu} />
                     </div>
                   </li>
@@ -188,9 +188,9 @@ export default function Header() {
                   </div>
                   <div className='dropdown-content top:0 absolute left-0 max-h-0 text-sm'></div>
                   <div
-                    className='static left-[15px] right-[15px] hidden group-hover:block 
-              sm:left-[45px] sm:right-[45px] md:absolute
-              xl:left-[15px] xl:right-[15px]'
+                    className='static left-[15px] right-[15px] z-50 hidden 
+              group-hover:block sm:left-[45px] sm:right-[45px]
+              md:absolute xl:left-[15px] xl:right-[15px]'
                   >
                     <MultipleMenu menu={childMenu} />
                   </div>
@@ -224,7 +224,7 @@ export default function Header() {
                       />
                     </UnstyledLink>
                   </div>
-                  <div className='absolute right-0 hidden min-w-[250px] group-hover:block'>
+                  <div className='absolute right-0 z-50 hidden min-w-[250px] group-hover:block'>
                     <MultipleMenu menu={childMenu} />
                   </div>
                 </li>

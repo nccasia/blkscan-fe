@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useWindowSize } from '@react-hook/window-size';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d';
 
@@ -9,6 +10,10 @@ const FocusGraph = () => {
     genRandomTree(1000)
   );
   const [allowFit, setAllowFit] = useState(true);
+  const [widthSize] = useWindowSize();
+
+  const ref = useRef<any>(null);
+
   const fgRef = useRef<ForceGraphMethods>();
 
   //Mock data. Will call api to get data later
@@ -24,27 +29,40 @@ const FocusGraph = () => {
 
   const maxNode = graphData?.nodes.find((node) => node.val === maxNodeVal);
 
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    setWidth(ref.current.offsetWidth);
+  }, [widthSize]);
+
   return (
-    <ForceGraph2D
-      width={1400}
-      ref={fgRef}
-      graphData={graphData}
-      nodeAutoColorBy='id'
-      nodeVal={(node: any) => node.val}
-      linkColor={(d: any) => d.source.color}
-      linkDirectionalArrowRelPos={1}
-      linkDirectionalArrowLength={2}
-      cooldownTicks={10}
-      onEngineTick={() => {
-        if (allowFit) {
-          fgRef.current?.zoomToFit(500, 250, (node) => node.id === maxNode?.id);
-        }
-      }}
-      onEngineStop={() => setAllowFit(false)}
-      onNodeClick={(current) => {
-        fgRef.current?.zoomToFit(500, 250, (node) => node.id === current?.id);
-      }}
-    />
+    <div ref={ref}>
+      <ForceGraph2D
+        width={width}
+        backgroundColor='#151515'
+        ref={fgRef}
+        graphData={graphData}
+        nodeAutoColorBy='id'
+        nodeVal={(node: any) => node.val}
+        linkColor={(d: any) => d.source.color}
+        linkDirectionalArrowRelPos={1}
+        linkDirectionalArrowLength={2}
+        cooldownTicks={10}
+        onEngineTick={() => {
+          if (allowFit) {
+            fgRef.current?.zoomToFit(
+              500,
+              250,
+              (node) => node.id === maxNode?.id
+            );
+          }
+        }}
+        onEngineStop={() => setAllowFit(false)}
+        onNodeClick={(current) => {
+          fgRef.current?.zoomToFit(500, 250, (node) => node.id === current?.id);
+        }}
+      />
+    </div>
   );
 };
 
