@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d';
+import ForceGraph2D, {
+  ForceGraphMethods,
+  NodeObject,
+} from 'react-force-graph-2d';
 import { genRandomTree, GrapDataTransaction } from '../force-graph/data';
 import { useAppSelector } from '../../store/hook';
 import { searchState } from '../../store/search';
 
 const FocusGraph = () => {
   const selector = useAppSelector(searchState);
+  // console.log(selector);
 
   const [graphData, setGraphData] = useState<GrapDataTransaction>(
     genRandomTree(1000)
@@ -17,10 +21,63 @@ const FocusGraph = () => {
   //Mock data. Will call api to get data later
   const data = useMemo(() => genRandomTree(1000), []);
 
+  const fake_data = useMemo(() => {
+    const dummyDataLinks = data.links.filter((number) => {
+      const targetDummy: NodeObject = number.target as NodeObject;
+      const sourceDummy: NodeObject = number.source as NodeObject;
+
+      return (
+        targetDummy.id == Number(selector) || sourceDummy.id == Number(selector)
+      );
+    });
+    const bonusNodes: number[] = [];
+    if (Number(selector) !== 0) {
+      bonusNodes.push(Number(selector));
+    }
+    for (let i = 0; i < dummyDataLinks.length; i++) {
+      const temp1 = dummyDataLinks[i].source as NodeObject;
+      const temp2 = dummyDataLinks[i].target as NodeObject;
+      bonusNodes.push(temp1.id as number);
+      bonusNodes.push(temp2.id as number);
+    }
+
+    const dummyDataNode = data.nodes.filter((item) =>
+      bonusNodes.includes(item.id)
+    );
+
+    const data_final: GrapDataTransaction = {
+      links: dummyDataLinks,
+      nodes: dummyDataNode,
+    };
+    return data_final;
+  }, [data.links, data.nodes, selector]);
+
+  /* 
+  links: Array(999)
+0-99
+0: {source: 1, target: 262}
+1: {source: 2, target: 216}
+2: {source: 3, target: 717}
+3: {source: 4, target: 140}
+4: {source: 5, target: 203}
+5: {source: 6, target: 284}
+nodes: Array(1000)
+0: {id: 0, val: 0, color: #e5b590}
+1: {id: 0, val: 0, color: #e5b590}
+2: {id: 0, val: 0, color: #e5b590}
+3: {id: 0, val: 0, color: #e5b590}
+4: {id: 0, val: 0, color: #e5b590} 
+
+
+  */
+
+  console.log('Data is: ', data);
+  console.log('Fake data is: ', fake_data);
+
   useEffect(() => {
-    setGraphData(data);
+    setGraphData(selector.length ? fake_data : data);
     setAllowFit(true);
-  }, [data]);
+  }, [data, fake_data, selector.length]);
 
   const maxNodeVal =
     graphData && Math.max(...graphData.nodes.map((node) => node.val));
