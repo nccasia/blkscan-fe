@@ -21,7 +21,11 @@
     "@hookform/resolvers": "^2.9.9",
     "@loadable/component": "^5.15.2",
     "@material-tailwind/react": "^1.2.4",
+<<<<<<< HEAD
     "@reduxjs/toolkit": "^1.8.6",
+=======
+    "@react-hook/window-size": "^3.1.1",
+>>>>>>> aaf0033cf0b469bb0058ec6664f774a6effe358d
     "clsx": "^1.2.1",
     "next": "^12.3.1",
     "next-redux-wrapper": "^8.0.0",
@@ -32,7 +36,6 @@
     "react-force-graph-2d": "^1.23.11",
     "react-force-graph-3d": "^1.21.13",
     "react-google-recaptcha": "^2.1.0",
-    "react-graph-vis": "^1.0.7",
     "react-hook-form": "^7.38.0",
     "react-icons": "^4.4.0",
     "tailwind-merge": "^1.6.1",

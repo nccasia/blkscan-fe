@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useWindowSize } from '@react-hook/window-size';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import ForceGraph2D, {
   ForceGraphMethods,
@@ -16,6 +17,10 @@ const FocusGraph = () => {
     genRandomTree(1000)
   );
   const [allowFit, setAllowFit] = useState(true);
+  const [widthSize] = useWindowSize();
+
+  const ref = useRef<any>(null);
+
   const fgRef = useRef<ForceGraphMethods>();
 
   //Mock data. Will call api to get data later
@@ -52,28 +57,6 @@ const FocusGraph = () => {
     return data_final;
   }, [data.links, data.nodes, selector]);
 
-  /* 
-  links: Array(999)
-0-99
-0: {source: 1, target: 262}
-1: {source: 2, target: 216}
-2: {source: 3, target: 717}
-3: {source: 4, target: 140}
-4: {source: 5, target: 203}
-5: {source: 6, target: 284}
-nodes: Array(1000)
-0: {id: 0, val: 0, color: #e5b590}
-1: {id: 0, val: 0, color: #e5b590}
-2: {id: 0, val: 0, color: #e5b590}
-3: {id: 0, val: 0, color: #e5b590}
-4: {id: 0, val: 0, color: #e5b590} 
-
-
-  */
-
-  console.log('Data is: ', data);
-  console.log('Fake data is: ', fake_data);
-
   useEffect(() => {
     setGraphData(selector.length ? fake_data : data);
     setAllowFit(true);
@@ -84,27 +67,40 @@ nodes: Array(1000)
 
   const maxNode = graphData?.nodes.find((node) => node.val === maxNodeVal);
 
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    setWidth(ref.current.offsetWidth);
+  }, [widthSize]);
+
   return (
-    <ForceGraph2D
-      width={1400}
-      ref={fgRef}
-      graphData={graphData}
-      nodeAutoColorBy='id'
-      nodeVal={(node: any) => node.val}
-      linkColor={(d: any) => d.source.color}
-      linkDirectionalArrowRelPos={1}
-      linkDirectionalArrowLength={2}
-      cooldownTicks={10}
-      onEngineTick={() => {
-        if (allowFit) {
-          fgRef.current?.zoomToFit(500, 250, (node) => node.id === maxNode?.id);
-        }
-      }}
-      onEngineStop={() => setAllowFit(false)}
-      onNodeClick={(current) => {
-        fgRef.current?.zoomToFit(500, 250, (node) => node.id === current?.id);
-      }}
-    />
+    <div ref={ref}>
+      <ForceGraph2D
+        width={width}
+        backgroundColor='#151515'
+        ref={fgRef}
+        graphData={graphData}
+        nodeAutoColorBy='id'
+        nodeVal={(node: any) => node.val}
+        linkColor={(d: any) => d.source.color}
+        linkDirectionalArrowRelPos={1}
+        linkDirectionalArrowLength={2}
+        cooldownTicks={10}
+        onEngineTick={() => {
+          if (allowFit) {
+            fgRef.current?.zoomToFit(
+              500,
+              250,
+              (node) => node.id === maxNode?.id
+            );
+          }
+        }}
+        onEngineStop={() => setAllowFit(false)}
+        onNodeClick={(current) => {
+          fgRef.current?.zoomToFit(500, 250, (node) => node.id === current?.id);
+        }}
+      />
+    </div>
   );
 };
 
