@@ -8,7 +8,13 @@ import ForceGraph2D, {
 
 import axios from 'axios';
 
-type NodeCustom = { id: number; val: number; color: string };
+type NodeCustom = {
+  id: number;
+  totalValue: number;
+  val?: number;
+  color: string;
+  totalTransaction: number;
+};
 type Node = NodeObject & NodeCustom;
 type Link = LinkObject;
 
@@ -29,7 +35,7 @@ const FocusGraph = () => {
       url: 'http://localhost:3001/graphql/',
       method: 'post',
       data: {
-        query: `query getGraph {getGraph {nodes { id, val}, links { source,target }}}`,
+        query: `query getGraph {getGraph {nodes { id, totalValue}, links { source,target }}}`,
         variables: {},
       },
     }).then((rs) => {
@@ -39,8 +45,12 @@ const FocusGraph = () => {
 
   const maxNodeVal =
     graphData &&
-    Math.max(...graphData.nodes.map((node) => (node.val ? node.val : 0)));
-  const maxNode = graphData?.nodes.find((node) => node.val === maxNodeVal);
+    Math.max(
+      ...graphData.nodes.map((node) => (node.totalValue ? node.totalValue : 0))
+    );
+  const maxNode = graphData?.nodes.find(
+    (node) => node.totalValue === maxNodeVal
+  );
 
   return (
     <ForceGraph2D
@@ -48,7 +58,7 @@ const FocusGraph = () => {
       ref={fgRef}
       graphData={graphData}
       nodeAutoColorBy='id'
-      nodeVal={(node: any) => node.val}
+      nodeVal={(node: any) => node.totalValue}
       nodeLabel='val'
       linkColor={(d: any) => d.source.color}
       linkDirectionalArrowLength={1}
