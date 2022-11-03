@@ -1,27 +1,45 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import ForceGraph2D, { ForceGraphMethods } from 'react-force-graph-2d';
+import React, { useEffect, useState, useRef } from 'react';
+import ForceGraph2D, {
+  ForceGraphMethods,
+  LinkObject,
+  NodeObject,
+} from 'react-force-graph-2d';
 
-import { genRandomTree, GrapDataTransaction } from '../force-graph/data';
+import axios from 'axios';
+
+type NodeCustom = { id: number; val: number; color: string };
+type Node = NodeObject & NodeCustom;
+type Link = LinkObject;
+
+export type GrapDataTransaction = {
+  nodes: Node[];
+  links: Link[];
+};
 
 const FocusGraph = () => {
-  const [graphData, setGraphData] = useState<GrapDataTransaction>(
-    genRandomTree(1000)
-  );
+  const [graphData, setGraphData] = useState<GrapDataTransaction>();
   const [allowFit, setAllowFit] = useState(true);
   const fgRef = useRef<ForceGraphMethods>();
 
   //Mock data. Will call api to get data later
-  const data = useMemo(() => genRandomTree(1000), []);
 
   useEffect(() => {
-    setGraphData(data);
-    setAllowFit(true);
-  }, [data]);
+    axios({
+      url: 'http://localhost:3001/graphql/',
+      method: 'post',
+      data: {
+        query: `query getGraph {getGraph {nodes { id, val}, links { source,target }}}`,
+        variables: {},
+      },
+    }).then((rs) => {
+      setGraphData(rs.data.data.getGraph);
+    });
+  }, []);
 
   const maxNodeVal =
-    graphData && Math.max(...graphData.nodes.map((node) => node.val));
-
+    graphData &&
+    Math.max(...graphData.nodes.map((node) => (node.val ? node.val : 0)));
   const maxNode = graphData?.nodes.find((node) => node.val === maxNodeVal);
 
   return (
@@ -31,9 +49,12 @@ const FocusGraph = () => {
       graphData={graphData}
       nodeAutoColorBy='id'
       nodeVal={(node: any) => node.val}
+      nodeLabel='val'
       linkColor={(d: any) => d.source.color}
-      linkDirectionalArrowRelPos={1}
-      linkDirectionalArrowLength={2}
+      linkDirectionalArrowLength={1}
+      linkDirectionalParticles={2}
+      linkDirectionalParticleWidth={2}
+      linkDirectionalParticleSpeed={0.01}
       cooldownTicks={10}
       onEngineTick={() => {
         if (allowFit) {
