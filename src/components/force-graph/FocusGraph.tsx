@@ -59,8 +59,8 @@ const FocusGraph = () => {
           return {
             ...d,
             size:
-              calculateNodeSize(d.totalValue, maxNode.totalValue) < 4
-                ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 4
+              calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
+                ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
                 : calculateNodeSize(d.totalValue, maxNode.totalValue),
             color:
               calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
