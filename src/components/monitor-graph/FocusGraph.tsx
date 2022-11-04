@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { calculateNodeSize } from '@/lib/helper';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ForceGraph2D } from 'react-force-graph';
 import { LinkObject, NodeObject } from 'react-force-graph-2d';
 type NodeCustom = {
@@ -18,9 +18,14 @@ export type GrapDataTransaction = {
   nodes: Node[];
   links: Link[];
 };
+// import { useWindowSize } from '@react-hook/window-size';
 
 const FocusGraph = () => {
+  const ref = useRef<any>(null);
   const [data, setData] = useState();
+  // const [widthSize] = useWindowSize();
+  // const [width, setWidth] = useState(0);
+
   useEffect(() => {
     axios({
       url: 'http://localhost:3001/graphql/',
@@ -65,8 +70,12 @@ const FocusGraph = () => {
     });
   }, []);
 
+  // useEffect(() => {
+  //   setWidth(ref.current.offsetWidth);
+  // }, [widthSize]);
+
   return (
-    <div className='w-full'>
+    <div ref={ref}>
       <ForceGraph2D
         width={1400}
         nodeAutoColorBy='id'

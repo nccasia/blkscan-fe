@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState } from 'react';
 import { FaGasPump, FaUserCircle } from 'react-icons/fa';
@@ -52,9 +52,8 @@ const childMenu = [
 ];
 
 export default function Header() {
-  const router = useRouter();
+  // const router = useRouter();
   const [isOpenNavBar, changeOpenNavBar] = useState<boolean>(false);
-  const isHomePage = router.pathname === '/';
   return (
     <header className='z-50 border border-inherit py-[0.25rem] font-normal lg:py-0'>
       <div
@@ -73,7 +72,10 @@ export default function Header() {
                 alt='Icon'
               />
             </UnstyledLink>
-            <div className={`${isHomePage ? 'hidden' : 'block'}`}>
+            <div
+            // className={`${isHomePage ? 'hidden' : 'block'}`}
+            // className={`${isHomePage ? 'hidden' : 'block'}`}
+            >
               <div className='mt-3 hidden rounded-[0.35rem] bg-[rgba(119,131,143,0.05)] px-[0.5rem] text-[0.8rem] sm:flex '>
                 <span className='text-[#1e2022]'>Eth: $1,293.91</span>
                 <span className='ml-1 text-[#de4437]'>(-0.43%)</span>
@@ -125,13 +127,12 @@ export default function Header() {
           </div>
         </div>
         <div
-          className={`flex w-full flex-1  md:flex-col ${
-            isOpenNavBar ? 'flex-col-reverse' : 'flex-col'
-          } ${isHomePage ? 'pt-0' : 'pt-[0.5rem]'}`}
+          className='flex w-full flex-1  md:flex-col'
+          // className={`flex w-full flex-1  md:flex-col ${
+          //   isOpenNavBar ? 'flex-col-reverse' : 'flex-col'
+          // } ${isHomePage ? 'pt-0' : 'pt-[0.5rem]'}`}
         >
-          <div
-            className={`flex justify-end ${isHomePage ? 'hidden' : 'block'}`}
-          >
+          <div className='flex justify-end'>
             <div className='w-full lg:w-3/5'>
               <SearchBox />
             </div>
@@ -169,7 +170,7 @@ export default function Header() {
                       {item}
                       <RiArrowDropDownLine className='ml-[0.1rem] inline' />
                     </div>
-                    <div className='static left-0 hidden min-w-[250px] group-hover:block md:absolute'>
+                    <div className='static left-0 z-50 hidden min-w-[250px] group-hover:block md:absolute'>
                       <MultipleMenu menu={childMenu} />
                     </div>
                   </li>
@@ -188,9 +189,9 @@ export default function Header() {
                   </div>
                   <div className='dropdown-content top:0 absolute left-0 max-h-0 text-sm'></div>
                   <div
-                    className='static left-[15px] right-[15px] hidden group-hover:block 
-              sm:left-[45px] sm:right-[45px] md:absolute
-              xl:left-[15px] xl:right-[15px]'
+                    className='static left-[15px] right-[15px] z-50 hidden 
+              group-hover:block sm:left-[45px] sm:right-[45px]
+              md:absolute xl:left-[15px] xl:right-[15px]'
                   >
                     <MultipleMenu menu={childMenu} />
                   </div>
@@ -224,7 +225,7 @@ export default function Header() {
                       />
                     </UnstyledLink>
                   </div>
-                  <div className='absolute right-0 hidden min-w-[250px] group-hover:block'>
+                  <div className='absolute right-0 z-50 hidden min-w-[250px] group-hover:block'>
                     <MultipleMenu menu={childMenu} />
                   </div>
                 </li>
