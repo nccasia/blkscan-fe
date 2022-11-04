@@ -5,17 +5,12 @@ import ForceGraph2D, {
   LinkObject,
   NodeObject,
 } from 'react-force-graph-2d';
-// import { useWindowSize } from '@react-hook/window-size';
 
 import axios from 'axios';
 import { calculateNodeSize } from '@/lib/helper';
 import { useWindowSize } from '@react-hook/window-size';
 import { useAppSelector } from '@/store/hook';
 import { searchState } from '@/store/search';
-
-// import { useAppSelector } from '../../store/hook';
-// import { searchState } from '../../store/search';
-// import { useWindowSize } from '@react-hook/window-size';
 
 type NodeCustom = {
   id: number | string;
@@ -35,7 +30,6 @@ export type GrapDataTransaction = {
 const FocusGraph = () => {
   const [allowFit, setAllowFit] = useState(true);
   const [widthSize] = useWindowSize();
-  // const [graphData, setGraphData] = useState<GrapDataTransaction>();
   const [graphDataShow, setGraphDataShow] = useState<GrapDataTransaction>();
   const selector = useAppSelector(searchState);
   const ref = useRef<any>(null);
@@ -43,7 +37,7 @@ const FocusGraph = () => {
   const [maxNode, setMaxNode] = useState<Node>();
   const fgRef = useRef<ForceGraphMethods>();
 
-  useEffect(() => {
+  const getFullGraph = () => {
     axios({
       url: 'http://localhost:3001/graphql/',
       method: 'post',
@@ -65,25 +59,6 @@ const FocusGraph = () => {
       );
 
       setMaxNode(maxNode);
-      // setGraphData({
-      //   ...data,
-      //   nodes: data.nodes.map((d: Node) => {
-      //     return {
-      //       ...d,
-      //       size:
-      //         calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-      //           ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-      //           : calculateNodeSize(d.totalValue, maxNode.totalValue),
-      //       color:
-      //         calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-      //           ? '#e50909'
-      //           : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-      //           ? '#d69e11'
-      //           : '#84c8df',
-      //     };
-      //   }),
-      // });
-
       setGraphDataShow({
         ...data,
         nodes: data.nodes.map((d: Node) => {
@@ -103,6 +78,10 @@ const FocusGraph = () => {
         }),
       });
     });
+  };
+
+  useEffect(() => {
+    getFullGraph();
   }, []);
 
   useEffect(() => {
@@ -130,24 +109,6 @@ const FocusGraph = () => {
         );
 
         setMaxNode(maxNode);
-        // setGraphData({
-        //   ...data,
-        //   nodes: data.nodes.map((d: Node) => {
-        //     return {
-        //       ...d,
-        //       size:
-        //         calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-        //           ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-        //           : calculateNodeSize(d.totalValue, maxNode.totalValue),
-        //       color:
-        //         calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-        //           ? '#e50909'
-        //           : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-        //           ? '#d69e11'
-        //           : '#84c8df',
-        //     };
-        //   }),
-        // });
 
         setGraphDataShow({
           ...data,
@@ -169,104 +130,12 @@ const FocusGraph = () => {
         });
         setAllowFit(true);
       });
+    } else {
+      getFullGraph();
     }
   }, [selector]);
 
-  // const fake_data = useMemo(() => {
-  //   const dummyDataLinks = graphData?.links.filter((number: LinkObject) => {
-  //     const targetDummy: NodeObject = number.target as NodeObject;
-  //     const sourceDummy: NodeObject = number.source as NodeObject;
-
-  //     return targetDummy.id == selector || sourceDummy.id == selector;
-  //   });
-  //   const bonusNodes: string[] = [];
-  //   bonusNodes.push(selector);
-
-  //   dummyDataLinks?.forEach((item: LinkObject) => {
-  //     const temp1 = item.source as NodeObject;
-  //     const temp2 = item.target as NodeObject;
-  //     bonusNodes.push(temp1.id as string);
-  //     bonusNodes.push(temp2.id as string);
-  //   });
-  //   const dummyDataNode = graphData?.nodes.filter((item: Node) =>
-  //     bonusNodes.includes(item.id as string)
-  //   );
-
-  //   const data_final: GrapDataTransaction = {
-  //     links: dummyDataLinks as LinkObject[],
-  //     nodes: dummyDataNode as Node[],
-  //   };
-  //   return data_final;
-  // }, [graphData?.links, graphData?.nodes, selector]);
-
   const [width, setWidth] = useState(0);
-
-  // console.log("re render")
-  // useEffect(() => {
-  //   if (fake_data && fake_data.nodes && fake_data.nodes?.length) {
-  //     const data = fake_data;
-  //     const maxNodeVal =
-  //       data &&
-  //       Math.max(
-  //         ...data.nodes.map((node: Node) =>
-  //           node.totalValue ? node.totalValue : 0
-  //         )
-  //       );
-  //     const maxNode1 = data?.nodes.find(
-  //       (node: Node) => node.totalValue === maxNodeVal
-  //     );
-
-  //     setMaxNode(maxNode1);
-
-  //     // console.log({
-  //     //   ...data,
-  //     //   nodes: data.nodes.map((d: Node) => {
-  //     //     return {
-  //     //       ...d,
-  //     //       size:
-  //     //         calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue) < 2
-  //     //           ? calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue) + 2
-  //     //           : calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue),
-  //     //       color:
-  //     //         calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue) > 60
-  //     //           ? '#e50909'
-  //     //           : calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue) < 10
-  //     //             ? '#d69e11'
-  //     //             : '#84c8df',
-  //     //     };
-  //     //   }),
-  //     // })
-  //     setGraphDataShow({
-  //       ...data,
-  //       nodes: data.nodes.map((d: Node) => {
-  //         return {
-  //           ...d,
-  //           size:
-  //             calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue) < 2
-  //               ? calculateNodeSize(
-  //                   d.totalValue,
-  //                   (maxNode1 as Node).totalValue
-  //                 ) + 2
-  //               : calculateNodeSize(
-  //                   d.totalValue,
-  //                   (maxNode1 as Node).totalValue
-  //                 ),
-  //           color:
-  //             calculateNodeSize(d.totalValue, (maxNode1 as Node).totalValue) >
-  //             60
-  //               ? '#e50909'
-  //               : calculateNodeSize(
-  //                   d.totalValue,
-  //                   (maxNode1 as Node).totalValue
-  //                 ) < 10
-  //               ? '#d69e11'
-  //               : '#84c8df',
-  //         };
-  //       }),
-  //     });
-  //     // setAllowFit(true);
-  //   }
-  // }, [fake_data]);
 
   useEffect(() => {
     setWidth(ref.current.offsetWidth);
