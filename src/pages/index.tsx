@@ -3,7 +3,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import FocusGraph from '../components/force-graph/FocusGraphWrapper';
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -15,4 +15,5 @@ export default function HomePage() {
       </main>
     </Layout>
   );
-}
+};
+export default HomePage;
