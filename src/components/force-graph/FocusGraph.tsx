@@ -7,6 +7,7 @@ import ForceGraph2D, {
 } from 'react-force-graph-2d';
 
 import axios from 'axios';
+import { calculateNodeSize } from '@/lib/helper';
 
 type NodeCustom = {
   id: number;
@@ -26,6 +27,7 @@ export type GrapDataTransaction = {
 const FocusGraph = () => {
   const [graphData, setGraphData] = useState<GrapDataTransaction>();
   const [allowFit, setAllowFit] = useState(true);
+  const [maxNode, setMaxNode] = useState<Node>();
   const fgRef = useRef<ForceGraphMethods>();
 
   //Mock data. Will call api to get data later
@@ -39,18 +41,38 @@ const FocusGraph = () => {
         variables: {},
       },
     }).then((rs) => {
-      setGraphData(rs.data.data.getGraph);
+      const data = rs.data.data.getGraph;
+      const maxNodeVal =
+        data &&
+        Math.max(
+          ...data.nodes.map((node: Node) =>
+            node.totalValue ? node.totalValue : 0
+          )
+        );
+      const maxNode = data?.nodes.find(
+        (node: Node) => node.totalValue === maxNodeVal
+      );
+      setMaxNode(maxNode);
+      setGraphData({
+        ...data,
+        nodes: data.nodes.map((d: Node) => {
+          return {
+            ...d,
+            size:
+              calculateNodeSize(d.totalValue, maxNode.totalValue) < 4
+                ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 4
+                : calculateNodeSize(d.totalValue, maxNode.totalValue),
+            color:
+              calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                ? '#e50909'
+                : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                ? '#d69e11'
+                : '#84c8df',
+          };
+        }),
+      });
     });
   }, []);
-
-  const maxNodeVal =
-    graphData &&
-    Math.max(
-      ...graphData.nodes.map((node) => (node.totalValue ? node.totalValue : 0))
-    );
-  const maxNode = graphData?.nodes.find(
-    (node) => node.totalValue === maxNodeVal
-  );
 
   return (
     <ForceGraph2D
@@ -58,8 +80,8 @@ const FocusGraph = () => {
       ref={fgRef}
       graphData={graphData}
       nodeAutoColorBy='id'
-      nodeVal={(node: any) => node.totalValue}
-      nodeLabel='val'
+      nodeVal={(node: any) => node.size}
+      nodeLabel={(node: any) => `${node.totalValue}`}
       linkColor={(d: any) => d.source.color}
       linkDirectionalArrowLength={1}
       linkDirectionalParticles={2}
