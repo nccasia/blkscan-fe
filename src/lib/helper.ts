@@ -39,3 +39,7 @@ export function getFromSessionStorage(key: string): string | null {
   }
   return null;
 }
+
+export function calculateNodeSize(value: number, maxValue: number) {
+  return (value / maxValue) * 100;
+}
