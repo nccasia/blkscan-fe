@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useState } from 'react';
 import { FaGasPump, FaUserCircle } from 'react-icons/fa';
@@ -52,7 +52,7 @@ const childMenu = [
 ];
 
 export default function Header() {
-  const router = useRouter();
+  // const router = useRouter();
   const [isOpenNavBar, changeOpenNavBar] = useState<boolean>(false);
   return (
     <header className='z-50 border border-inherit py-[0.25rem] font-normal lg:py-0'>
@@ -72,7 +72,7 @@ export default function Header() {
                 alt='Icon'
               />
             </UnstyledLink>
-            <div 
+            <div
             // className={`${isHomePage ? 'hidden' : 'block'}`}
             // className={`${isHomePage ? 'hidden' : 'block'}`}
             >

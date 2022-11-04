@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AppState } from './store';
-import { HYDRATE } from 'next-redux-wrapper';
-import { createWrapper } from 'next-redux-wrapper';
+// import { HYDRATE } from 'next-redux-wrapper';
+// import { createWrapper } from 'next-redux-wrapper';
 // Define a type for the slice state
 interface CounterState {
   value: string;
