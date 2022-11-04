@@ -21,12 +21,14 @@ export type GrapDataTransaction = {
   nodes: Node[];
   links: Link[];
 };
+// import { useWindowSize } from '@react-hook/window-size';
 
 const FocusGraph = () => {
   const ref = useRef<any>(null);
+  const [data, setData] = useState();
   // const [widthSize] = useWindowSize();
   // const [width, setWidth] = useState(0);
-  const [data, setData] = useState();
+
   useEffect(() => {
     axios({
       url: 'http://localhost:3001/graphql/',
