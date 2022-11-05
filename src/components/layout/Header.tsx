@@ -66,7 +66,7 @@ export default function Header() {
               <NextImage
                 useSkeleton
                 className='block w-40'
-                src='/images/logo-etherscan.svg'
+                src='/images/blkscan-logo.png'
                 width='160'
                 height='35.8'
                 alt='Icon'
@@ -208,28 +208,6 @@ export default function Header() {
                     </a>
                   </Link>
                 </li>
-
-                <li className='group relative hidden pl-4 md:block'>
-                  <div className='flex h-7 w-7 flex-col justify-around bg-[#3498db1a]'>
-                    <UnstyledLink
-                      href='/'
-                      className='font-bold hover:text-gray-600'
-                    >
-                      <NextImage
-                        useSkeleton
-                        src='/images/ethereum-icon.webp'
-                        width='19.24'
-                        height='19.24'
-                        alt='Icon'
-                        className='mx-auto align-middle'
-                      />
-                    </UnstyledLink>
-                  </div>
-                  <div className='absolute right-0 z-50 hidden min-w-[250px] group-hover:block'>
-                    <MultipleMenu menu={childMenu} />
-                  </div>
-                </li>
-
                 <li
                   className='dropdown group relative block w-full cursor-pointer py-[0.5rem] 
                md:hidden md:w-auto md:px-4 md:py-[0.8rem]'

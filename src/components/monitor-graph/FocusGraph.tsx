@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { calculateNodeSize } from '@/lib/helper';
-import axios from 'axios';
+// import { randomGraph } from '@/components/monitor-graph/data';
 import React, { useEffect, useState, useRef } from 'react';
 import { ForceGraph2D } from 'react-force-graph';
+// import { useWindowSize } from '@react-hook/window-size';
+import { calculateNodeSize } from '@/lib/helper';
+import axios from 'axios';
 import { LinkObject, NodeObject } from 'react-force-graph-2d';
+
 type NodeCustom = {
   id: number;
   totalValue: number;
