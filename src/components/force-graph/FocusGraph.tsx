@@ -9,9 +9,9 @@ import ForceGraph2D, {
 import axios from 'axios';
 import { calculateNodeSize } from '@/lib/helper';
 import { useWindowSize } from '@react-hook/window-size';
-import { useAppSelector } from '@/store/hook';
+// import { useAppSelector } from '@/store/hook';
 import { searchState } from '@/store/search';
-
+import { useSelector } from 'react-redux';
 type NodeCustom = {
   id: number | string;
   totalValue: number;
@@ -31,7 +31,7 @@ const FocusGraph = () => {
   const [allowFit, setAllowFit] = useState(true);
   const [widthSize] = useWindowSize();
   const [graphDataShow, setGraphDataShow] = useState<GrapDataTransaction>();
-  const selector = useAppSelector(searchState);
+  const selector = useSelector(searchState);
   const ref = useRef<any>(null);
 
   const [maxNode, setMaxNode] = useState<Node>();
