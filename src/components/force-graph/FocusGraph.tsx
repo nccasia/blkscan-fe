@@ -72,8 +72,8 @@ const FocusGraph = () => {
               calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
                 ? '#e50909'
                 : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                ? '#d69e11'
-                : '#84c8df',
+                  ? '#d69e11'
+                  : '#84c8df',
           };
         }),
       });
@@ -124,8 +124,8 @@ const FocusGraph = () => {
                 calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
                   ? '#e50909'
                   : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                  ? '#d69e11'
-                  : '#84c8df',
+                    ? '#d69e11'
+                    : '#84c8df',
             };
           }),
         });
