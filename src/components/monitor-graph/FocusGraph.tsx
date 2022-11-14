@@ -5,7 +5,12 @@ import { ForceGraph2D } from 'react-force-graph';
 // import { useWindowSize } from '@react-hook/window-size';
 import { calculateNodeSize } from '@/lib/helper';
 import axios from 'axios';
-import { LinkObject, NodeObject } from 'react-force-graph-2d';
+import {
+  ForceGraphMethods,
+  LinkObject,
+  NodeObject,
+} from 'react-force-graph-2d';
+import { API_URL } from '@/lib/constants';
 
 type NodeCustom = {
   id: number;
@@ -26,12 +31,14 @@ export type GrapDataTransaction = {
 const FocusGraph = () => {
   const ref = useRef<any>(null);
   const [data, setData] = useState();
+  const fgRef = useRef<ForceGraphMethods>();
   // const [widthSize] = useWindowSize();
   // const [width, setWidth] = useState(0);
 
   useEffect(() => {
+    fgRef?.current?.d3Force('link')?.distance(150);
     axios({
-      url: 'http://localhost:3001/graphql/',
+      url: API_URL,
       method: 'post',
       data: {
         query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
@@ -54,21 +61,23 @@ const FocusGraph = () => {
 
       setData({
         ...data,
-        nodes: data.nodes.map((d: Node) => {
-          return {
-            ...d,
-            size:
-              calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-                : calculateNodeSize(d.totalValue, maxNode.totalValue),
-            color:
-              calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                ? '#e50909'
-                : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                ? '#d69e11'
-                : '#84c8df',
-          };
-        }),
+        nodes: data.nodes
+          .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+          .map((d: Node) => {
+            return {
+              ...d,
+              size:
+                calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
+                  ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
+                  : calculateNodeSize(d.totalValue, maxNode.totalValue),
+              color:
+                calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                  ? '#e50909'
+                  : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                  ? '#d69e11'
+                  : '#84c8df',
+            };
+          }),
       });
     });
   }, []);
@@ -80,6 +89,7 @@ const FocusGraph = () => {
   return (
     <div ref={ref}>
       <ForceGraph2D
+        ref={fgRef}
         width={1400}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
