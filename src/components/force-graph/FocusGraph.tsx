@@ -11,6 +11,7 @@ import { calculateNodeSize } from '@/lib/helper';
 import { useWindowSize } from '@react-hook/window-size';
 import { useAppSelector } from '@/store/hook';
 import { searchState } from '@/store/search';
+import { API_URL } from '@/lib/constants';
 
 type NodeCustom = {
   id: number | string;
@@ -39,7 +40,7 @@ const FocusGraph = () => {
 
   const getFullGraph = () => {
     axios({
-      url: 'http://localhost:3001/graphql/',
+      url: API_URL,
       method: 'post',
       data: {
         query: `query getGraph {getGraph {nodes { id, totalValue}, links { source,target }}}`,
@@ -61,21 +62,23 @@ const FocusGraph = () => {
       setMaxNode(maxNode);
       setGraphDataShow({
         ...data,
-        nodes: data.nodes.map((d: Node) => {
-          return {
-            ...d,
-            size:
-              calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-                : calculateNodeSize(d.totalValue, maxNode.totalValue),
-            color:
-              calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                ? '#e50909'
-                : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                ? '#d69e11'
-                : '#84c8df',
-          };
-        }),
+        nodes: data.nodes
+          .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+          .map((d: Node) => {
+            return {
+              ...d,
+              size:
+                calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
+                  ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
+                  : calculateNodeSize(d.totalValue, maxNode.totalValue),
+              color:
+                calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                  ? '#e50909'
+                  : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                  ? '#d69e11'
+                  : '#84c8df',
+            };
+          }),
       });
       setAllowFit(true);
     });
@@ -83,12 +86,13 @@ const FocusGraph = () => {
 
   useEffect(() => {
     getFullGraph();
+    fgRef?.current?.d3Force('link')?.distance(150);
   }, []);
 
   useEffect(() => {
     if (selector) {
       axios({
-        url: 'http://localhost:3001/graphql/',
+        url: API_URL,
         method: 'post',
         data: {
           query: `query searchGraph($id: ID!) {searchGraph(id:$id) {nodes { id, totalValue}, links { source,target }}}`,
@@ -108,26 +112,27 @@ const FocusGraph = () => {
         const maxNode = data?.nodes.find(
           (node: Node) => node.totalValue === maxNodeVal
         );
-
         setMaxNode(maxNode);
 
         setGraphDataShow({
           ...data,
-          nodes: data.nodes.map((d: Node) => {
-            return {
-              ...d,
-              size:
-                calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                  ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-                  : calculateNodeSize(d.totalValue, maxNode.totalValue),
-              color:
-                calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                  ? '#e50909'
-                  : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                  ? '#d69e11'
-                  : '#84c8df',
-            };
-          }),
+          nodes: data.nodes
+            .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+            .map((d: Node) => {
+              return {
+                ...d,
+                size:
+                  calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
+                    ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
+                    : calculateNodeSize(d.totalValue, maxNode.totalValue),
+                color:
+                  calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                    ? '#e50909'
+                    : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                    ? '#d69e11'
+                    : '#84c8df',
+              };
+            }),
         });
         setAllowFit(true);
       });
