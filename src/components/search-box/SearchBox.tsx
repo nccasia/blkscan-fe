@@ -1,6 +1,6 @@
 import { BiSearch } from 'react-icons/bi';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useAppDispatch } from '../../store/hook';
+import { useDispatch } from 'react-redux';
 import { changeValueSearch } from '@/store/search';
 
 type FormValues = {
@@ -9,7 +9,7 @@ type FormValues = {
 
 const SearchBox = () => {
   const { register, handleSubmit } = useForm<FormValues>();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
     dispatch(changeValueSearch(data.inputValue));
   };
