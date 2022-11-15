@@ -5,11 +5,10 @@ import ForceGraph2D, {
   LinkObject,
   NodeObject,
 } from 'react-force-graph-2d';
-
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { calculateNodeSize } from '@/lib/helper';
 import { useWindowSize } from '@react-hook/window-size';
-import { useAppSelector } from '@/store/hook';
 import { searchState } from '@/store/search';
 import { API_URL } from '@/lib/constants';
 
@@ -32,7 +31,7 @@ const FocusGraph = () => {
   const [allowFit, setAllowFit] = useState(true);
   const [widthSize] = useWindowSize();
   const [graphDataShow, setGraphDataShow] = useState<GrapDataTransaction>();
-  const selector = useAppSelector(searchState);
+  const selector = useSelector(searchState);
   const ref = useRef<any>(null);
 
   const [maxNode, setMaxNode] = useState<Node>();
@@ -155,7 +154,9 @@ const FocusGraph = () => {
         graphData={graphDataShow}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
-        nodeLabel={(node: any) => `${node.totalValue}`}
+        nodeLabel={(node: any) =>
+          `<p> <b>Address:</b>  ${node.id} <p>\n<p><b>Total value:</b> ${node.totalValue}</p>`
+        }
         linkColor={(d: any) => d.source.color}
         linkDirectionalArrowLength={1}
         linkDirectionalParticles={2}
