@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react';
-import ForceGraph2D, {
+import {
   ForceGraphMethods,
   LinkObject,
   NodeObject,
 } from 'react-force-graph-2d';
-
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { calculateNodeSize } from '@/lib/helper';
 import { useWindowSize } from '@react-hook/window-size';
-import { useSelector } from 'react-redux';
-
 import { searchState } from '@/store/search';
 import { API_URL } from '@/lib/constants';
+import { ForceGraph3D } from 'react-force-graph';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type NodeCustom = {
   id: number | string;
@@ -39,13 +40,27 @@ const FocusGraph = () => {
   const [maxNode, setMaxNode] = useState<Node>();
   const fgRef = useRef<ForceGraphMethods>();
 
+  // const handleClick = useCallback((node: any) => {
+  //   // Aim at node from outside it
+  //   const distance = 40;
+  //   const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+  //   console.log("click ")
+  //   fgRef.current?.cameraPosition(
+  //     { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+  //     node, // lookAt ({ x, y, z })
+  //     3000  // ms transition duration
+  //   );
+  // }, [fgRef]);
+
   const getFullGraph = () => {
     axios({
       url: API_URL,
       method: 'post',
       data: {
-        query: `query getGraph {getGraph {nodes { id, totalValue}, links { source,target }}}`,
-        variables: {},
+        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
+        variables: {
+          limit: 20,
+        },
       },
     }).then((rs) => {
       const data = rs.data.data.getGraph;
@@ -99,46 +114,58 @@ const FocusGraph = () => {
           query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
           variables: {
             id: selector,
+            limit: 20,
           },
         },
       }).then((rs) => {
         const data = rs.data.data.searchGraph;
-        const maxNodeVal =
-          data &&
-          Math.max(
-            ...data.nodes.map((node: Node) =>
-              node.totalValue ? node.totalValue : 0
-            )
+        if (!data.nodes.length) {
+          toast.error(`There are no nodes with ID = ${selector}`, {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark',
+          });
+        } else {
+          const maxNodeVal =
+            data &&
+            Math.max(
+              ...data.nodes.map((node: Node) =>
+                node.totalValue ? node.totalValue : 0
+              )
+            );
+          const maxNode = data?.nodes.find(
+            (node: Node) => node.totalValue === maxNodeVal
           );
-        const maxNode = data?.nodes.find(
-          (node: Node) => node.totalValue === maxNodeVal
-        );
-        setMaxNode(maxNode);
+          setMaxNode(maxNode);
 
-        setGraphDataShow({
-          ...data,
-          nodes: data.nodes
-            .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
-            .map((d: Node) => {
-              return {
-                ...d,
-                size:
-                  calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                    ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-                    : calculateNodeSize(d.totalValue, maxNode.totalValue),
-                color:
-                  calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                    ? '#e50909'
-                    : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                    ? '#d69e11'
-                    : '#84c8df',
-              };
-            }),
-        });
-        setAllowFit(true);
+          setGraphDataShow({
+            ...data,
+            nodes: data.nodes
+              .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+              .map((d: Node) => {
+                return {
+                  ...d,
+                  size:
+                    calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
+                      ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
+                      : calculateNodeSize(d.totalValue, maxNode.totalValue),
+                  color:
+                    calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                      ? '#e50909'
+                      : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                      ? '#d69e11'
+                      : '#84c8df',
+                };
+              }),
+          });
+          setAllowFit(true);
+        }
       });
-    } else {
-      getFullGraph();
     }
   }, [selector]);
 
@@ -150,13 +177,16 @@ const FocusGraph = () => {
 
   return (
     <div ref={ref}>
-      <ForceGraph2D
+      <ForceGraph3D
+        // onNodeClick={handleClick}
         width={width}
-        ref={fgRef}
+        // ref={fgRef}
         graphData={graphDataShow}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
-        nodeLabel={(node: any) => `${node.totalValue}`}
+        nodeLabel={(node: any) =>
+          `<p> <b>Address:</b>  ${node.id} <p>\n<p><b>Total value:</b> ${node.totalValue}</p>`
+        }
         linkColor={(d: any) => d.source.color}
         linkDirectionalArrowLength={1}
         linkDirectionalParticles={2}
@@ -173,13 +203,14 @@ const FocusGraph = () => {
           }
         }}
         onEngineStop={() => setAllowFit(false)}
-        onNodeClick={(current) => {
-          fgRef.current?.zoomToFit(
-            500,
-            250,
-            (node: any) => node.id === current?.id
-          );
-        }}
+        // onNodeClick={(current) => {
+        //   console.log("click")
+        //   fgRef.current?.zoomToFit(
+        //     500,
+        //     250,
+        //     (node: any) => node.id === current?.id
+        //   );
+        // }}
       />
     </div>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useRef } from 'react';
-import { ForceGraph2D } from 'react-force-graph';
+import { ForceGraph3D } from 'react-force-graph';
 import { calculateNodeSize } from '@/lib/helper';
 import axios from 'axios';
 import {
@@ -44,7 +44,7 @@ const FocusGraph = () => {
       data: {
         query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
         variables: {
-          limit: 100,
+          limit: 20,
         },
       },
     }).then((rs) => {
@@ -95,7 +95,7 @@ const FocusGraph = () => {
           query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue}, links { source,target }}}`,
           variables: {
             id: selector,
-            limit: 100,
+            limit: 20,
           },
         },
       }).then((rs) => {
@@ -143,8 +143,8 @@ const FocusGraph = () => {
 
   return (
     <div ref={ref}>
-      <ForceGraph2D
-        ref={fgRef}
+      <ForceGraph3D
+        // ref={fgRef}
         width={width}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
@@ -155,7 +155,7 @@ const FocusGraph = () => {
         linkDirectionalParticleWidth={2}
         linkDirectionalParticleSpeed={0.01}
         // enableNodeDrag={false}
-        nodeCanvasObjectMode={() => 'after'}
+        // nodeCanvasObjectMode={() => 'after'}
         linkColor={(link: any) => link.source.color}
         // nodeCanvasObject={(node: any, ctx) => {
         //   ctx.font = `3px Sans-Serif`;

@@ -2,6 +2,9 @@ import { BiSearch } from 'react-icons/bi';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { changeValueSearch } from '@/store/search';
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type FormValues = {
   inputValue: string;
@@ -11,11 +14,25 @@ const SearchBox = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const dispatch = useDispatch();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(changeValueSearch(data.inputValue));
+    if (data.inputValue) {
+      dispatch(changeValueSearch(data.inputValue));
+    } else {
+      toast.error('Input must be required!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+    }
   };
 
   return (
     <form className='flex items-stretch' onSubmit={handleSubmit(onSubmit)}>
+      <ToastContainer />
       <select
         id='filter'
         className='hidden rounded-l border-[#d5dae2] pr-6 text-sm text-[#1e2022] focus:ring-0 md:block'
