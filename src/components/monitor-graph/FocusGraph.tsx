@@ -29,6 +29,7 @@ import { useSelector } from 'react-redux';
 import { searchState } from '@/store/search';
 import { monitorPageLimit } from '@/constant/graph';
 import { BLUE, RED, YELLOW } from '@/constant/color';
+import { errorToast } from '@/lib/notification';
 
 const FocusGraph = () => {
   const ref = useRef<any>(null);
@@ -102,37 +103,41 @@ const FocusGraph = () => {
         },
       }).then((rs) => {
         const data = rs.data.data.searchGraph;
-        const maxNodeVal =
-          data &&
-          Math.max(
-            ...data.nodes.map((node: Node) =>
-              node.totalValue ? node.totalValue : 0
-            )
+        if (!data.nodes.length) {
+          errorToast(`There are no nodes with ID = ${selector}`);
+        } else {
+          const maxNodeVal =
+            data &&
+            Math.max(
+              ...data.nodes.map((node: Node) =>
+                node.totalValue ? node.totalValue : 0
+              )
+            );
+          const maxNode = data?.nodes.find(
+            (node: Node) => node.totalValue === maxNodeVal
           );
-        const maxNode = data?.nodes.find(
-          (node: Node) => node.totalValue === maxNodeVal
-        );
 
-        setData({
-          ...data,
-          nodes: data.nodes
-            .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
-            .map((d: Node) => {
-              return {
-                ...d,
-                size:
-                  calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                    ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-                    : calculateNodeSize(d.totalValue, maxNode.totalValue),
-                color:
-                  calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                    ? RED
-                    : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                    ? YELLOW
-                    : BLUE,
-              };
-            }),
-        });
+          setData({
+            ...data,
+            nodes: data.nodes
+              .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+              .map((d: Node) => {
+                return {
+                  ...d,
+                  size:
+                    calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
+                      ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
+                      : calculateNodeSize(d.totalValue, maxNode.totalValue),
+                  color:
+                    calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                      ? RED
+                      : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                      ? YELLOW
+                      : BLUE,
+                };
+              }),
+          });
+        }
       });
     } else {
       getMonitorGraph();
@@ -150,7 +155,9 @@ const FocusGraph = () => {
         width={width}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
-        nodeLabel={(node: any) => `${node.totalValue}`}
+        nodeLabel={(node: any) =>
+          `<p> <b>Address:</b>  ${node.id} <p>\n<p><b>Total value:</b> ${node.totalValue}</p>`
+        }
         graphData={data}
         linkDirectionalArrowLength={3}
         linkDirectionalParticles={2}

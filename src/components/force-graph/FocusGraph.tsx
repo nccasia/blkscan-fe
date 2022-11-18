@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  ForceGraphMethods,
+  // ForceGraphMethods,
   LinkObject,
   NodeObject,
 } from 'react-force-graph-2d';
@@ -39,21 +39,23 @@ const FocusGraph = () => {
   const ref = useRef<any>(null);
 
   const [maxNode, setMaxNode] = useState<Node>();
-  const fgRef = useRef<ForceGraphMethods>();
+  // const fgRef = useRef<ForceGraphMethods>();
 
-  const fgRef1 = useRef();
+  const fgRefGraph = useRef();
 
-  // const handleClick = useCallback((node: any) => {
-  //         // Aim at node from outside it
-  //   const distance = 40;
-  //   const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+  const handleClick = useCallback(
+    (node: any) => {
+      const distance = 80;
+      const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
 
-  //   fgRef1.current?.cameraPosition(
-  //     { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
-  //     node, // lookAt ({ x, y, z })
-  //     3000  // ms transition duration
-  //   );
-  // }, [fgRef]);
+      fgRefGraph.current?.cameraPosition(
+        { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+        node,
+        3000
+      );
+    },
+    [fgRefGraph]
+  );
 
   const getFullGraph = () => {
     axios({
@@ -105,7 +107,7 @@ const FocusGraph = () => {
 
   useEffect(() => {
     getFullGraph();
-    fgRef?.current?.d3Force('link')?.distance(150);
+    // fgRef?.current?.d3Force('link')?.distance(150);
   }, []);
 
   useEffect(() => {
@@ -160,6 +162,8 @@ const FocusGraph = () => {
           setAllowFit(true);
         }
       });
+    } else {
+      getFullGraph();
     }
   }, [selector]);
 
@@ -172,9 +176,9 @@ const FocusGraph = () => {
   return (
     <div ref={ref}>
       <ForceGraph3D
-        // onNodeClick={handleClick}
+        onNodeClick={(node) => handleClick(node)}
         width={width}
-        ref={fgRef1}
+        ref={fgRefGraph}
         graphData={graphDataShow}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
@@ -189,22 +193,14 @@ const FocusGraph = () => {
         cooldownTicks={10}
         onEngineTick={() => {
           if (allowFit) {
-            fgRef.current?.zoomToFit(
-              500,
-              250,
-              (node: any) => node.id === maxNode?.id
-            );
+            graphDataShow?.nodes.forEach((node: any) => {
+              if (node.id === maxNode?.id) {
+                handleClick(node);
+              }
+            });
           }
         }}
         onEngineStop={() => setAllowFit(false)}
-        // onNodeClick={(current) => {
-        //   console.log("click")
-        //   fgRef.current?.zoomToFit(
-        //     500,
-        //     250,
-        //     (node: any) => node.id === current?.id
-        //   );
-        // }}
       />
     </div>
   );
