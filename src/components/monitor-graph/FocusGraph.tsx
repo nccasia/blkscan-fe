@@ -45,7 +45,7 @@ const FocusGraph = () => {
       url: API_URL,
       method: 'post',
       data: {
-        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
+        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count}, links { source,target }}}`,
         variables: {
           limit: monitorPageLimit,
         },
@@ -95,7 +95,7 @@ const FocusGraph = () => {
         url: API_URL,
         method: 'post',
         data: {
-          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue}, links { source,target }}}`,
+          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue, count}, links { source,target }}}`,
           variables: {
             id: selector,
             limit: monitorPageLimit,
@@ -156,7 +156,18 @@ const FocusGraph = () => {
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
         nodeLabel={(node: any) =>
-          `<p> <b>Address:</b>  ${node.id} <p>\n<p><b>Total value:</b> ${node.totalValue}</p>`
+          `<p><b>Address:</b> ${node.id} <p>\n
+          ${
+            node.totalValue || (!node.totalValue && !node.count)
+              ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n`
+              : ''
+          }
+          ${
+            node.count && !node.totalValue
+              ? `<p><b>Called count:</b> ${node.count || 0}</p>\n`
+              : ''
+          }
+          `
         }
         graphData={data}
         linkDirectionalArrowLength={3}
