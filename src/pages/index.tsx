@@ -8,7 +8,7 @@ const HomePage = () => {
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
-      <main className='layout'>
+      <main>
         <div>
           <FocusGraph />
         </div>
