@@ -5,7 +5,7 @@ const Monitor = () => {
   return (
     <>
       <Layout>
-        <div className='layout'>
+        <div>
           <div>
             <FocusGraph />
           </div>
