@@ -41,12 +41,14 @@ const FocusGraph = () => {
   const [maxNode, setMaxNode] = useState<Node>();
   const fgRef = useRef<ForceGraphMethods>();
 
+  const fgRef1 = useRef();
+
   // const handleClick = useCallback((node: any) => {
-  //   // Aim at node from outside it
+  //         // Aim at node from outside it
   //   const distance = 40;
-  //   const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-  //   console.log("click ")
-  //   fgRef.current?.cameraPosition(
+  //   const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+
+  //   fgRef1.current?.cameraPosition(
   //     { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
   //     node, // lookAt ({ x, y, z })
   //     3000  // ms transition duration
@@ -172,7 +174,7 @@ const FocusGraph = () => {
       <ForceGraph3D
         // onNodeClick={handleClick}
         width={width}
-        // ref={fgRef}
+        ref={fgRef1}
         graphData={graphDataShow}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
