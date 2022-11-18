@@ -27,6 +27,8 @@ export type GrapDataTransaction = {
 import { useWindowSize } from '@react-hook/window-size';
 import { useSelector } from 'react-redux';
 import { searchState } from '@/store/search';
+import { monitorPageLimit } from '@/constant/graph';
+import { BLUE, RED, YELLOW } from '@/constant/color';
 
 const FocusGraph = () => {
   const ref = useRef<any>(null);
@@ -44,7 +46,7 @@ const FocusGraph = () => {
       data: {
         query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
         variables: {
-          limit: 20,
+          limit: monitorPageLimit,
         },
       },
     }).then((rs) => {
@@ -73,10 +75,10 @@ const FocusGraph = () => {
                   : calculateNodeSize(d.totalValue, maxNode.totalValue),
               color:
                 calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                  ? '#e50909'
+                  ? RED
                   : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                  ? '#d69e11'
-                  : '#84c8df',
+                  ? YELLOW
+                  : BLUE,
             };
           }),
       });
@@ -95,7 +97,7 @@ const FocusGraph = () => {
           query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue}, links { source,target }}}`,
           variables: {
             id: selector,
-            limit: 20,
+            limit: monitorPageLimit,
           },
         },
       }).then((rs) => {
@@ -124,10 +126,10 @@ const FocusGraph = () => {
                     : calculateNodeSize(d.totalValue, maxNode.totalValue),
                 color:
                   calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                    ? '#e50909'
+                    ? RED
                     : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                    ? '#d69e11'
-                    : '#84c8df',
+                    ? YELLOW
+                    : BLUE,
               };
             }),
         });

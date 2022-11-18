@@ -3,8 +3,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { changeValueSearch } from '@/store/search';
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import { errorToast } from '@/lib/notification';
 
 type FormValues = {
   inputValue: string;
@@ -17,16 +17,7 @@ const SearchBox = () => {
     if (data.inputValue) {
       dispatch(changeValueSearch(data.inputValue));
     } else {
-      toast.error('Input must be required!', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
+      errorToast('Input must be required!');
     }
   };
 

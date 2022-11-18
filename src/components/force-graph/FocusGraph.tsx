@@ -12,8 +12,9 @@ import { useWindowSize } from '@react-hook/window-size';
 import { searchState } from '@/store/search';
 import { API_URL } from '@/lib/constants';
 import { ForceGraph3D } from 'react-force-graph';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { errorToast } from '@/lib/notification';
+import { homePageLimit } from '@/constant/graph';
+import { BLUE, RED, YELLOW } from '@/constant/color';
 
 type NodeCustom = {
   id: number | string;
@@ -59,7 +60,7 @@ const FocusGraph = () => {
       data: {
         query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
         variables: {
-          limit: 20,
+          limit: homePageLimit,
         },
       },
     }).then((rs) => {
@@ -89,10 +90,10 @@ const FocusGraph = () => {
                   : calculateNodeSize(d.totalValue, maxNode.totalValue),
               color:
                 calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                  ? '#e50909'
+                  ? RED
                   : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                  ? '#d69e11'
-                  : '#84c8df',
+                  ? YELLOW
+                  : BLUE,
             };
           }),
       });
@@ -114,22 +115,13 @@ const FocusGraph = () => {
           query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit: $limit) {nodes { id, totalValue}, links { source,target }}}`,
           variables: {
             id: selector,
-            limit: 20,
+            limit: homePageLimit,
           },
         },
       }).then((rs) => {
         const data = rs.data.data.searchGraph;
         if (!data.nodes.length) {
-          toast.error(`There are no nodes with ID = ${selector}`, {
-            position: 'bottom-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'dark',
-          });
+          errorToast(`There are no nodes with ID = ${selector}`);
         } else {
           const maxNodeVal =
             data &&
@@ -156,10 +148,10 @@ const FocusGraph = () => {
                       : calculateNodeSize(d.totalValue, maxNode.totalValue),
                   color:
                     calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
-                      ? '#e50909'
+                      ? RED
                       : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
-                      ? '#d69e11'
-                      : '#84c8df',
+                      ? YELLOW
+                      : BLUE,
                 };
               }),
           });
