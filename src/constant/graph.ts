@@ -1,2 +1,2 @@
-export const homePageLimit = 5000;
+export const homePageLimit = 20;
 export const monitorPageLimit = 100;
