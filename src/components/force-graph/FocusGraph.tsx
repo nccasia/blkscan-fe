@@ -57,6 +57,8 @@ const FocusGraph = () => {
     [fgRefGraph]
   );
 
+  // const fgRef1 = useRef();
+
   const getFullGraph = () => {
     axios({
       url: API_URL,
