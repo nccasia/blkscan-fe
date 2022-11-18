@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   // ForceGraphMethods,
   LinkObject,
   NodeObject,
+  ForceGraphMethods,
 } from 'react-force-graph-2d';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -11,7 +12,7 @@ import { calculateNodeSize } from '@/lib/helper';
 import { useWindowSize } from '@react-hook/window-size';
 import { searchState } from '@/store/search';
 import { API_URL } from '@/lib/constants';
-import { ForceGraph3D } from 'react-force-graph';
+import { ForceGraph2D } from 'react-force-graph';
 import { errorToast } from '@/lib/notification';
 import { homePageLimit } from '@/constant/graph';
 import { BLUE, RED, YELLOW } from '@/constant/color';
@@ -40,22 +41,22 @@ const FocusGraph = () => {
 
   const [maxNode, setMaxNode] = useState<Node>();
   // const fgRef = useRef<ForceGraphMethods>();
+  const fgRef = useRef<ForceGraphMethods>();
+  // const fgRefGraph = useRef();
 
-  const fgRefGraph = useRef();
+  // const handleClick = useCallback(
+  //   (node: any) => {
+  //     const distance = 80;
+  //     const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
 
-  const handleClick = useCallback(
-    (node: any) => {
-      const distance = 80;
-      const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-
-      fgRefGraph.current?.cameraPosition(
-        { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
-        node,
-        3000
-      );
-    },
-    [fgRefGraph]
-  );
+  //     fgRefGraph.current?.cameraPosition(
+  //       { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+  //       node,
+  //       3000
+  //     );
+  //   },
+  //   [fgRefGraph]
+  // );
 
   // const fgRef1 = useRef();
 
@@ -177,17 +178,25 @@ const FocusGraph = () => {
 
   return (
     <div ref={ref}>
-      <ForceGraph3D
-        onNodeClick={(node) => handleClick(node)}
+      <ForceGraph2D
+        // onNodeClick={(node) => handleClick(node)}
         width={width}
-        ref={fgRefGraph}
+        ref={fgRef}
         graphData={graphDataShow}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
         nodeLabel={(node: any) =>
           `<p><b>Address:</b> ${node.id} <p>\n
-          ${node.totalValue || (!node.totalValue && !node.count) ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n` : ''}
-          ${node.count && !node.totalValue ? `<p><b>Called count:</b> ${node.count || 0}</p>\n` : ''}
+          ${
+            node.totalValue || (!node.totalValue && !node.count)
+              ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n`
+              : ''
+          }
+          ${
+            node.count && !node.totalValue
+              ? `<p><b>Called count:</b> ${node.count || 0}</p>\n`
+              : ''
+          }
           `
         }
         linkColor={(d: any) => d.source.color}
@@ -196,16 +205,45 @@ const FocusGraph = () => {
         linkDirectionalParticleWidth={2}
         linkDirectionalParticleSpeed={0.01}
         cooldownTicks={10}
+        // onEngineTick={() => {
+        //   if (allowFit) {
+        //     graphDataShow?.nodes.forEach((node: any) => {
+        //       if (node.id === maxNode?.id) {
+        //         handleClick(node);
+        //       }
+        //     });
+        //   }
+        // }}
+
+        // onEngineTick={() => {
+        //   if (allowFit) {
+        //     fgRef.current?.zoomToFit(
+        //       500,
+        //       250,
+        //       (node: any) => node.id === maxNode?.id
+        //     );
+        //   }
+        // }}
+
         onEngineTick={() => {
           if (allowFit) {
-            graphDataShow?.nodes.forEach((node: any) => {
-              if (node.id === maxNode?.id) {
-                handleClick(node);
-              }
-            });
+            fgRef.current?.zoomToFit(
+              500,
+              250,
+              (node: any) => node.id === maxNode?.id
+            );
           }
         }}
         onEngineStop={() => setAllowFit(false)}
+        onNodeClick={(current) => {
+          fgRef.current?.zoomToFit(
+            500,
+            250,
+            (node: any) => node.id === current?.id
+          );
+        }}
+
+        // onEngineStop={() => setAllowFit(false)}
       />
     </div>
   );

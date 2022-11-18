@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useRef } from 'react';
-import { ForceGraph3D } from 'react-force-graph';
+import { ForceGraph2D } from 'react-force-graph';
 import { calculateNodeSize } from '@/lib/helper';
 import axios from 'axios';
 import {
@@ -150,8 +150,8 @@ const FocusGraph = () => {
 
   return (
     <div ref={ref}>
-      <ForceGraph3D
-        // ref={fgRef}
+      <ForceGraph2D
+        ref={fgRef}
         width={width}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
