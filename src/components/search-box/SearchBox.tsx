@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { changeValueSearch } from '@/store/search';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
-import { errorToast } from '@/lib/notification';
 
 type FormValues = {
   inputValue: string;
@@ -14,11 +13,7 @@ const SearchBox = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const dispatch = useDispatch();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    if (data.inputValue) {
-      dispatch(changeValueSearch(data.inputValue));
-    } else {
-      errorToast('Input must be required!');
-    }
+    dispatch(changeValueSearch(data.inputValue));
   };
 
   return (
