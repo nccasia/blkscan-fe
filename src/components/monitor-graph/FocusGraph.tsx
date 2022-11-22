@@ -45,13 +45,14 @@ const FocusGraph = () => {
       url: API_URL,
       method: 'post',
       data: {
-        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count}, links { source,target }}}`,
+        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count , funcName}, links { source,target }}}`,
         variables: {
           limit: monitorPageLimit,
         },
       },
     }).then((rs) => {
-      const data = rs.data.data.getGraph;
+      const data = rs?.data?.data?.getGraph;
+      if (!data) return;
       const maxNodeVal =
         data &&
         Math.max(
@@ -95,7 +96,7 @@ const FocusGraph = () => {
         url: API_URL,
         method: 'post',
         data: {
-          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue, count}, links { source,target }}}`,
+          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue, count, funcName }, links { source,target }}}`,
           variables: {
             id: selector,
             limit: monitorPageLimit,
@@ -158,13 +159,18 @@ const FocusGraph = () => {
         nodeLabel={(node: any) =>
           `<p><b>Address:</b> ${node.id} <p>\n
           ${
-            node.totalValue || (!node.totalValue && !node.count)
+            node.totalValue
               ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n`
               : ''
           }
           ${
             node.count && !node.totalValue
               ? `<p><b>Called count:</b> ${node.count || 0}</p>\n`
+              : ''
+          }
+          ${
+            node.funcName && !node.totalValue
+              ? `<p><b>Method:</b> ${node.funcName}</p>\n`
               : ''
           }
           `

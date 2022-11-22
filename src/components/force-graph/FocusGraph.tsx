@@ -65,13 +65,14 @@ const FocusGraph = () => {
       url: API_URL,
       method: 'post',
       data: {
-        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count}, links { source,target }}}`,
+        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count, funcName}, links { source,target }}}`,
         variables: {
           limit: homePageLimit,
         },
       },
     }).then((rs) => {
-      const data = rs.data.data.getGraph;
+      const data = rs?.data?.data?.getGraph;
+      if (!data) return;
       const maxNodeVal =
         data &&
         Math.max(
@@ -119,14 +120,15 @@ const FocusGraph = () => {
         url: API_URL,
         method: 'post',
         data: {
-          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit: $limit) {nodes { id, totalValue, count}, links { source,target }}}`,
+          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit: $limit) {nodes { id, totalValue, count, funcName }, links { source,target }}}`,
           variables: {
             id: selector,
             limit: homePageLimit,
           },
         },
       }).then((rs) => {
-        const data = rs.data.data.searchGraph;
+        const data = rs?.data?.data?.searchGraph;
+        if (!data) return;
         if (!data.nodes.length) {
           errorToast(`There are no nodes with ID = ${selector}`);
         } else {
@@ -178,23 +180,48 @@ const FocusGraph = () => {
 
   return (
     <div ref={ref}>
+      {/* <CopyToClipboard text={nodeAddress}
+          onCopy={() => setCopied(true)}>
+          <button>Copy address</button>
+      </CopyToClipboard>
+
+      <style jsx>{`
+          button {
+            border: 1px solid black;
+            padding: 5px 10px;
+            }
+          `}
+      </style> */}
       <ForceGraph2D
-        // onNodeClick={(node) => handleClick(node)}
+        onNodeClick={(currentNode) => {
+          // setNodeAddress(currentNode.id as string); setCopied(false)
+          navigator.clipboard.writeText(currentNode?.id as string);
+          return fgRef.current?.zoomToFit(
+            500,
+            250,
+            (node: any) => node.id === currentNode?.id
+          );
+        }}
         width={width}
         ref={fgRef}
         graphData={graphDataShow}
         nodeAutoColorBy='id'
-        nodeVal={(node: any) => node.size}
+        nodeVal={(node: any) => node?.size}
         nodeLabel={(node: any) =>
           `<p><b>Address:</b> ${node.id} <p>\n
           ${
-            node.totalValue || (!node.totalValue && !node.count)
+            node.totalValue
               ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n`
               : ''
           }
           ${
             node.count && !node.totalValue
               ? `<p><b>Called count:</b> ${node.count || 0}</p>\n`
+              : ''
+          }
+          ${
+            node.funcName && !node.totalValue
+              ? `<p><b>Method:</b> ${node.funcName}</p>\n`
               : ''
           }
           `
@@ -215,16 +242,6 @@ const FocusGraph = () => {
         //   }
         // }}
 
-        // onEngineTick={() => {
-        //   if (allowFit) {
-        //     fgRef.current?.zoomToFit(
-        //       500,
-        //       250,
-        //       (node: any) => node.id === maxNode?.id
-        //     );
-        //   }
-        // }}
-
         onEngineTick={() => {
           if (allowFit) {
             fgRef.current?.zoomToFit(
@@ -234,14 +251,18 @@ const FocusGraph = () => {
             );
           }
         }}
+        //Zoom for 3d
+        // onEngineTick={() => {
+        //   if (allowFit) {
+        //     graphDataShow?.nodes.forEach((node: any) => {
+        //       if (node.id === maxNode?.id) {
+        //         handleClick(node);
+        //       }
+        //     });
+        //   }
+        // }}
+
         onEngineStop={() => setAllowFit(false)}
-        onNodeClick={(current) => {
-          fgRef.current?.zoomToFit(
-            500,
-            250,
-            (node: any) => node.id === current?.id
-          );
-        }}
 
         // onEngineStop={() => setAllowFit(false)}
       />
