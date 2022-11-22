@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState, useRef } from 'react';
-import { ForceGraph3D } from 'react-force-graph';
+import { ForceGraph2D } from 'react-force-graph';
 import { calculateNodeSize } from '@/lib/helper';
 import axios from 'axios';
 import {
@@ -45,13 +45,14 @@ const FocusGraph = () => {
       url: API_URL,
       method: 'post',
       data: {
-        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count}, links { source,target }}}`,
+        query: `query getGraph($limit: Int) {getGraph(limit: $limit) {nodes { id, totalValue, count , funcName}, links { source,target }}}`,
         variables: {
           limit: monitorPageLimit,
         },
       },
     }).then((rs) => {
-      const data = rs.data.data.getGraph;
+      const data = rs?.data?.data?.getGraph;
+      if (!data) return;
       const maxNodeVal =
         data &&
         Math.max(
@@ -95,14 +96,15 @@ const FocusGraph = () => {
         url: API_URL,
         method: 'post',
         data: {
-          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue, count}, links { source,target }}}`,
+          query: `query searchGraph($id: ID!, $limit: Int) {searchGraph(id:$id, limit:$limit) {nodes { id, totalValue, count, funcName }, links { source,target }}}`,
           variables: {
             id: selector,
             limit: monitorPageLimit,
           },
         },
       }).then((rs) => {
-        const data = rs.data.data.searchGraph;
+        const data = rs?.data?.data?.searchGraph;
+        if (!data) return;
         if (!data.nodes.length) {
           errorToast(`There are no nodes with ID = ${selector}`);
         } else {
@@ -150,23 +152,16 @@ const FocusGraph = () => {
 
   return (
     <div ref={ref}>
-      <ForceGraph3D
-        // ref={fgRef}
+      <ForceGraph2D
+        ref={fgRef}
         width={width}
         nodeAutoColorBy='id'
         nodeVal={(node: any) => node.size}
         nodeLabel={(node: any) =>
           `<p><b>Address:</b> ${node.id} <p>\n
-          ${
-            node.totalValue || (!node.totalValue && !node.count)
-              ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n`
-              : ''
-          }
-          ${
-            node.count && !node.totalValue
-              ? `<p><b>Called count:</b> ${node.count || 0}</p>\n`
-              : ''
-          }
+          ${node.totalValue ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n` : ''}
+          ${node.count && !node.totalValue ? `<p><b>Called count:</b> ${node.count || 0}</p>\n` : ''}
+          ${node.funcName && !node.totalValue ? `<p><b>Method:</b> ${node.funcName}</p>\n` : ''}
           `
         }
         graphData={data}
