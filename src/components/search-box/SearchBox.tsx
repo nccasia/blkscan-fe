@@ -13,7 +13,7 @@ const SearchBox = () => {
   const { register, handleSubmit } = useForm<FormValues>();
   const dispatch = useDispatch();
   const onSubmit: SubmitHandler<FormValues> = (data) => {
-    dispatch(changeValueSearch(data.inputValue));
+    dispatch(changeValueSearch(data?.inputValue ?? ''));
   };
 
   return (
