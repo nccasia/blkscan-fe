@@ -1,9 +1,9 @@
 import { BiSearch } from 'react-icons/bi';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { changeValueSearch } from '@/store/search';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 
 type FormValues = {
   inputValue: string;
