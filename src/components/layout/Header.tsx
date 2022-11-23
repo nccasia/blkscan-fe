@@ -143,7 +143,7 @@ export default function Header() {
                         router.pathname === '/' && 'text-header-item-hover'
                       }`}
                     >
-                      Home
+                      Wallets
                     </a>
                   </Link>
                 </li>
@@ -156,7 +156,7 @@ export default function Header() {
                         'text-header-item-hover'
                       }`}
                     >
-                      Contract
+                      Contracts
                     </a>
                   </Link>
                 </li>
