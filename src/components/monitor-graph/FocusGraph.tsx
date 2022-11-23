@@ -180,6 +180,16 @@ const FocusGraph = () => {
         //   const lines = node.val;
         //   ctx.fillText(lines, Number(node.x + node.val), Number(node.y));
         // }}
+        onNodeClick={(currentNode) => {
+          // navigator.clipboard.writeText(currentNode?.id as string);
+          // fgRef.current?.zoomToFit(
+          //   500,
+          //   250,
+          //   (node: any) => node.id === currentNode?.id
+          // );
+          currentNode?.id && setTimeout(() => window.open(`https://etherscan.io/address/${currentNode?.id}`, '_blank'), 100)
+          return;
+        }}
       />
     </div>
   );

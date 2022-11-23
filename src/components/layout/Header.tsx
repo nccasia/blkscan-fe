@@ -76,7 +76,7 @@ export default function Header() {
             // className={`${isHomePage ? 'hidden' : 'block'}`}
             // className={`${isHomePage ? 'hidden' : 'block'}`}
             >
-              <div className='mt-3 hidden rounded-[0.35rem] bg-[rgba(119,131,143,0.05)] px-[0.5rem] text-[0.8rem] sm:flex '>
+              <div className='mt-3 invisible hidden rounded-[0.35rem] bg-[rgba(119,131,143,0.05)] px-[0.5rem] text-[0.8rem] sm:flex '>
                 <span className='text-[#1e2022]'>Eth: $1,293.91</span>
                 <span className='ml-1 text-[#de4437]'>(-0.43%)</span>
                 <span className='mx-1 pl-1 text-[0.7rem]'>
@@ -92,6 +92,7 @@ export default function Header() {
                 </span>
               </div>
             </div>
+            
           </div>
           <div className='flex flex-col justify-center md:hidden'>
             <div className='relative'>
