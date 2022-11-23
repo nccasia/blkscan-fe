@@ -233,13 +233,16 @@ const FocusGraph = () => {
         // }}
 
         onEngineStop={() => setAllowFit(false)}
-        // onNodeClick={(current) => {
-        //   fgRef.current?.zoomToFit(
-        //     500,
-        //     250,
-        //     (node: any) => node.id === current?.id
-        //   );
-        // }}
+        onNodeClick={(currentNode) => {
+          // navigator.clipboard.writeText(currentNode?.id as string);
+          // fgRef.current?.zoomToFit(
+          //   500,
+          //   250,
+          //   (node: any) => node.id === currentNode?.id
+          // );
+          currentNode?.id && setTimeout(() => window.open(`https://etherscan.io/address/${currentNode?.id}`, '_blank'), 100)
+          return;
+        }}
 
         // onEngineStop={() => setAllowFit(false)}
       />
