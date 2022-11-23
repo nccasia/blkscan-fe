@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { FaGasPump, FaUserCircle } from 'react-icons/fa';
 import { RiArrowDropDownLine } from 'react-icons/ri';
-
+import { useRouter } from 'next/router';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import MultipleMenu from '@/components/menu/MultipleMenu';
 import NextImage from '@/components/NextImage';
@@ -52,7 +52,7 @@ const childMenu = [
 ];
 
 export default function Header() {
-  // const router = useRouter();
+  const router = useRouter();
   const [isOpenNavBar, changeOpenNavBar] = useState<boolean>(false);
   return (
     <header className='z-50 border border-inherit py-[0.25rem] font-normal lg:py-0'>
@@ -72,11 +72,8 @@ export default function Header() {
                 alt='Icon'
               />
             </UnstyledLink>
-            <div
-            // className={`${isHomePage ? 'hidden' : 'block'}`}
-            // className={`${isHomePage ? 'hidden' : 'block'}`}
-            >
-              <div className='mt-3 invisible hidden rounded-[0.35rem] bg-[rgba(119,131,143,0.05)] px-[0.5rem] text-[0.8rem] sm:flex '>
+            <div>
+              <div className='invisible mt-3 hidden rounded-[0.35rem] bg-[rgba(119,131,143,0.05)] px-[0.5rem] text-[0.8rem] sm:flex '>
                 <span className='text-[#1e2022]'>Eth: $1,293.91</span>
                 <span className='ml-1 text-[#de4437]'>(-0.43%)</span>
                 <span className='mx-1 pl-1 text-[0.7rem]'>
@@ -92,7 +89,6 @@ export default function Header() {
                 </span>
               </div>
             </div>
-            
           </div>
           <div className='flex flex-col justify-center md:hidden'>
             <div className='relative'>
@@ -127,12 +123,7 @@ export default function Header() {
             </div>
           </div>
         </div>
-        <div
-          className='flex w-full flex-1  md:flex-col'
-          // className={`flex w-full flex-1  md:flex-col ${
-          //   isOpenNavBar ? 'flex-col-reverse' : 'flex-col'
-          // } ${isHomePage ? 'pt-0' : 'pt-[0.5rem]'}`}
-        >
+        <div className='flex w-full flex-1  md:flex-col'>
           <div className='flex justify-end'>
             <div className='w-full lg:w-3/5'>
               <SearchBox />
@@ -147,17 +138,42 @@ export default function Header() {
               <ul className='flex flex-col items-center justify-between md:flex-row'>
                 <li className='w-full py-[0.5rem] pr-4 md:w-auto md:py-[0.8rem]'>
                   <Link href='/'>
-                    <a className='text-sm text-header-item-hover'>Home</a>
+                    <a
+                      className={`text-sm hover:text-header-item-hover ${
+                        router.pathname === '/' && 'text-header-item-hover'
+                      }`}
+                    >
+                      Home
+                    </a>
+                  </Link>
+                </li>
+
+                <li className='w-full py-[0.5rem] px-4 md:w-auto md:py-[0.8rem]'>
+                  <Link href='/contract'>
+                    <a
+                      className={`text-sm hover:text-header-item-hover ${
+                        router.pathname === '/contract' &&
+                        'text-header-item-hover'
+                      }`}
+                    >
+                      Contract
+                    </a>
                   </Link>
                 </li>
 
                 <li className='w-full py-[0.5rem] px-4 md:w-auto md:py-[0.8rem]'>
                   <Link href='/monitor'>
-                    <a className='text-sm text-header-item hover:text-header-item-hover'>
+                    <a
+                      className={`text-sm hover:text-header-item-hover ${
+                        router.pathname === '/monitor' &&
+                        'text-header-item-hover'
+                      }`}
+                    >
                       Monitor
                     </a>
                   </Link>
                 </li>
+
                 {menu.map((item, index) => (
                   <li
                     key={index}
