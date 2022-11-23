@@ -22,6 +22,7 @@ type NodeCustom = {
   id: number | string;
   totalValue: number;
   val?: number;
+  count: number;
   color: string;
   totalTransaction: number;
 };
@@ -75,7 +76,7 @@ const FocusGraph = () => {
         variables: {
           limit: homePageLimit,
           skip: 0,
-          type: NodeType.Wallets,
+          type: NodeType.Contracts,
         },
       },
     })
@@ -85,30 +86,28 @@ const FocusGraph = () => {
         const maxNodeVal =
           data &&
           Math.max(
-            ...data.nodes.map((node: Node) =>
-              node.totalValue ? node.totalValue : 0
-            )
+            ...data.nodes.map((node: Node) => (node.count ? node.count : 0))
           );
         const maxNode = data?.nodes.find(
-          (node: Node) => node.totalValue === maxNodeVal
+          (node: Node) => node.count === maxNodeVal
         );
 
         setMaxNode(maxNode);
         setGraphDataShow({
           ...data,
           nodes: data.nodes
-            .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+            .sort((a: Node, b: Node) => a.count - b.count)
             .map((d: Node) => {
               return {
                 ...d,
                 size:
-                  calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                    ? calculateNodeSize(d.totalValue, maxNode.totalValue) + 2
-                    : calculateNodeSize(d.totalValue, maxNode.totalValue),
+                  calculateNodeSize(d.count, maxNode.count) < 2
+                    ? calculateNodeSize(d.count, maxNode.count) + 2
+                    : calculateNodeSize(d.count, maxNode.count),
                 color:
-                  calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                  calculateNodeSize(d.count, maxNode.count) > 60
                     ? RED
-                    : calculateNodeSize(d.totalValue, maxNode.totalValue) < 10
+                    : calculateNodeSize(d.count, maxNode.count) < 10
                     ? YELLOW
                     : BLUE,
               };
@@ -146,32 +145,28 @@ const FocusGraph = () => {
             const maxNodeVal =
               data &&
               Math.max(
-                ...data.nodes.map((node: Node) =>
-                  node.totalValue ? node.totalValue : 0
-                )
+                ...data.nodes.map((node: Node) => (node.count ? node.count : 0))
               );
             const maxNode = data?.nodes.find(
-              (node: Node) => node.totalValue === maxNodeVal
+              (node: Node) => node.count === maxNodeVal
             );
             setMaxNode(maxNode);
 
             setGraphDataShow({
               ...data,
               nodes: data.nodes
-                .sort((a: Node, b: Node) => a.totalValue - b.totalValue)
+                .sort((a: Node, b: Node) => a.count - b.count)
                 .map((d: Node) => {
                   return {
                     ...d,
                     size:
-                      calculateNodeSize(d.totalValue, maxNode.totalValue) < 2
-                        ? calculateNodeSize(d.totalValue, maxNode.totalValue) +
-                          2
-                        : calculateNodeSize(d.totalValue, maxNode.totalValue),
+                      calculateNodeSize(d.count, maxNode.count) < 2
+                        ? calculateNodeSize(d.count, maxNode.count) + 2
+                        : calculateNodeSize(d.count, maxNode.count),
                     color:
-                      calculateNodeSize(d.totalValue, maxNode.totalValue) > 60
+                      calculateNodeSize(d.count, maxNode.count) > 60
                         ? RED
-                        : calculateNodeSize(d.totalValue, maxNode.totalValue) <
-                          10
+                        : calculateNodeSize(d.count, maxNode.count) < 10
                         ? YELLOW
                         : BLUE,
                   };
@@ -203,11 +198,6 @@ const FocusGraph = () => {
         nodeVal={(node: any) => node?.size}
         nodeLabel={(node: any) =>
           `<p><b>Address:</b> ${node.id} <p>\n
-          ${
-            node.totalValue
-              ? `<p><b>Total value:</b> ${node.totalValue || 0}</p>\n`
-              : ''
-          }
           ${
             node.count && !node.totalValue
               ? `<p><b>Called count:</b> ${node.count || 0}</p>\n`
